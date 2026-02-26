@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | GKS STORE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body class="auth-page">
+
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="auth-container" data-aos="zoom-in">
+        <div class="auth-box">
+            <div class="logo">GKS<span>STORE</span></div>
+            <h2>Създай <span>акаунт</span></h2>
+            <form id="registerForm" class="styled-form">
+                <input type="text" placeholder="Потребителско име" class="input-field" required>
+                <input type="email" placeholder="Имейл" class="input-field" required>
+                <input type="password" placeholder="Парола" class="input-field" required>
+                <button type="submit" class="cta-btn">РЕГИСТРАЦИЯ</button>
+            </form>
+            <p class="auth-footer">Вече имате акаунт? <a href="login.html">Влезте тук</a></p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GKS STORE | Официален сайт</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">GKS<span>STORE</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="about.html">За нас</a></li>
+            <li><a href="product.html">Продукти</a></li>
+            <li><a href="contact.html">Контакти</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero" data-aos="zoom-out">
+        <h1 data-aos="fade-up" data-aos-delay="200">GKS STORE</h1>
+        <p data-aos="fade-up" data-aos-delay="400">Бъдещето на технологиите е тук.</p>
+        <button class="cta-btn" data-aos="fade-up" data-aos-delay="600">Разгледай колекцията</button>
+    </header>
+
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-text" data-aos="fade-right">
+                <h2>Нашата <span>Мисия</span></h2>
+                <p>В GKS STORE комбинираме силата на модерния дизайн с безкомпромисно качество. Вдъхновени от
+                    иновациите, ние създаваме решения за теб.</p>
+            </div>
+            <div class="about-image" data-aos="fade-left">
+                <div class="logo-box">GKS</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="products">
+        <h2 data-aos="fade-down">Топ Продукти</h2>
+        <div class="product-grid">
+            <div class="product-card" data-aos="fade-up">
+                <div class="img-placeholder"></div>
+                <div class="card-details">
+                    <h3>GKS Ultra Pro</h3>
+                    <p>129.99 лв.</p>
+                    <button class="add-to-cart">Добави в количката</button>
+                </div>
+            </div>
+            <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="img-placeholder"></div>
+                <div class="card-details">
+                    <h3>GKS Wireless</h3>
+                    <p>85.00 лв.</p>
+                    <button class="add-to-cart">Добави в количката</button>
+                </div>
+            </div>
+            <div class="product-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="img-placeholder"></div>
+                <div class="card-details">
+                    <h3>GKS Limited Edition</h3>
+                    <p>250.00 лв.</p>
+                    <button class="add-to-cart">Добави в количката</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2 data-aos="fade-up">Свържи се с <span>нас</span></h2>
+        <form class="contact-form" data-aos="flip-left">
+            <input type="text" placeholder="Име" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Твоето съобщение" rows="5"></textarea>
+            <button type="submit" class="cta-btn">Изпрати</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 GKS STORE. Всички права запазени.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+
+</html>
