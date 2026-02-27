@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ Панел | GKS STORE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-darker">
+
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">GKS<span>ADMIN</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Към сайта</a></li>
+            <li><a href="product.html">Каталог</a></li>
+        </ul>
+    </nav>
+
+    <section class="contact-wrapper">
+        <div class="contact-info">
+            <h2>Добави нов <span>Продукт</span></h2>
+            <p>Попълни данните, за да се появят в каталога (цените са в €).</p>
+
+            <form id="addProductForm" class="styled-form">
+                <input type="text" id="prodName" placeholder="Име на продукта" class="input-field" required>
+                <input type="number" id="prodPrice" step="0.01" placeholder="Цена в евро (€)" class="input-field"
+                    required>
+                <input type="url" id="prodImage" placeholder="Линк към снимка (URL)" class="input-field" required>
+                <button type="submit" class="cta-btn">ДОБАВИ В БАЗАТА</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Твоята Количка</h3>
+            <span id="close-cart">&times;</span>
+        </div>
+        <div id="cart-items" class="cart-items-container">
+        </div>
+        <div class="cart-footer">
+            <div class="total-price">Общо: <span id="cart-total">0.00</span> €</div>
+            <button id="checkout-btn" class="cta-btn" style="width: 100%;">ПЛАЩАНЕ</button>
+        </div>
+    </div>
+
+    <li><a href="#" id="cart-icon">🛒 <span id="cart-count">0</span></a></li>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

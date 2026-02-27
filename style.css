@@ -315,3 +315,135 @@ span {
     border-radius: 4px;
     font-weight: 800 !important;
 }
+
+/* --- Стили за Админ Панела --- */
+
+/* Контейнер за формата (използваме съществуващия contact-wrapper) */
+.contact-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Стилизиране на числовите полета (Input Number) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Полетата във формата */
+.styled-form input.input-field {
+    font-size: 16px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+/* Ефект при фокус върху полето */
+.styled-form input.input-field:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 10px rgba(0, 200, 230, 0.2);
+    background: #050505;
+}
+
+/* Допълнително за бутона в админ панела */
+#addProductForm .cta-btn {
+    margin-top: 10px;
+    letter-spacing: 2px;
+    font-size: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Стил за съобщения за успех/грешка (ако решиш да добавиш по-късно) */
+.admin-msg {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Адаптивност за мобилни устройства */
+@media (max-width: 600px) {
+
+    .auth-box,
+    .contact-info {
+        padding: 20px;
+        width: 90%;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+}
+
+/* Количка Panel */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    /* Скрита по подразбиране */
+    width: 350px;
+    height: 100%;
+    background: var(--card-bg);
+    border-left: 1px solid var(--border);
+    z-index: 2000;
+    transition: 0.4s ease;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-sidebar.active {
+    right: 0;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 15px;
+}
+
+#close-cart {
+    font-size: 30px;
+    cursor: pointer;
+    color: var(--cyan);
+}
+
+.cart-items-container {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 20px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: var(--black);
+    border-radius: 4px;
+}
+
+.cart-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 15px;
+}
+
+.total-price {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+#cart-count {
+    background: var(--cyan);
+    color: var(--black);
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-size: 10px;
+    vertical-align: top;
+}

@@ -1,13 +1,13 @@
 // 1. Управление на Loader-а
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     const loader = document.getElementById("loader");
     if (loader) {
         loader.classList.add("loader-hidden");
     }
-    
+
     // Проверка на статус и зареждане на продукти
     checkLoginStatus();
-    loadProducts(); 
+    loadProducts();
 });
 
 // 2. Инициализация на анимациите
@@ -19,20 +19,20 @@ AOS.init({
 // 3. ФУНКЦИЯ ЗА ЗАРЕЖДАНЕ НА ПРОДУКТИ ОТ FIREBASE
 async function loadProducts() {
     const container = document.getElementById('products-container');
-    
+
     // Проверяваме дали сме на страницата с продукти (дали контейнерът съществува)
-    if (!container) return; 
+    if (!container) return;
 
     try {
         // Взимаме документите от колекция "products"
         const querySnapshot = await window.fb.getDocs(window.fb.collection(window.db, "products"));
-        
+
         // Чистим контейнера от плейсхолдъри
-        container.innerHTML = ""; 
+        container.innerHTML = "";
 
         querySnapshot.forEach((doc) => {
             const product = doc.data();
-            
+
             // Генерираме HTML картата за всеки продукт
             const productHTML = `
                 <div class="card" data-aos="fade-up">
@@ -95,7 +95,101 @@ if (logForm) {
 }
 
 // Функция за количка (за момента само лог)
-window.addToCart = function(productId) {
+window.addToCart = function (productId) {
     console.log("Добавен продукт с ID: " + productId);
     alert("Продуктът е добавен в количката!");
 };
+
+// Логика за добавяне на продукти (Админ Панел)
+const addProductForm = document.getElementById('addProductForm');
+
+if (addProductForm) {
+    addProductForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Взимаме данните от полетата
+        const name = document.getElementById('prodName').value;
+        const price = parseFloat(document.getElementById('prodPrice').value);
+        const image = document.getElementById('prodImage').value;
+
+        try {
+            // Записваме в Firestore колекция "products"
+            await window.fb.addDoc(window.fb.collection(window.db, "products"), {
+                name: name,
+                price: price,
+                image: image,
+                createdAt: new Date() // Добавяме и дата на създаване
+            });
+
+            alert("Продуктът е добавен успешно в €!");
+            addProductForm.reset(); // Изчистваме формата
+        } catch (error) {
+            console.error("Грешка при добавяне:", error);
+            alert("Възникна грешка: " + error.message);
+        }
+    });
+}
+
+let cart = [];
+
+// Отваряне/Затваряне на количката
+const cartIcon = document.getElementById('cart-icon');
+const cartSidebar = document.getElementById('cart-sidebar');
+const closeCart = document.getElementById('close-cart');
+
+if (cartIcon) cartIcon.onclick = () => cartSidebar.classList.add('active');
+if (closeCart) closeCart.onclick = () => cartSidebar.classList.remove('active');
+
+// Функция за добавяне в количката (Обновена)
+window.addToCart = function (productId) {
+    // В реална ситуация тук ще вземем данните от Firestore
+    // За момента симулираме добавяне за бързина на интерфейса
+    // Но най-добре е да подадем обекта:
+    alert("Продуктът е добавен!");
+    updateCart(productId);
+};
+
+function updateCart(id) {
+    cart.push(id);
+    document.getElementById('cart-count').innerText = cart.length;
+    // Тук може да се добави по-сложна логика за визуализация на имената
+}
+
+// БУТОН ПЛАЩАНЕ
+const checkoutBtn = document.getElementById('checkout-btn');
+if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', async () => {
+        const user = window.auth.currentUser;
+
+        if (!user) {
+            alert("Моля, влезте в акаунта си, за да направите поръчка!");
+            window.location.href = 'login.html';
+            return;
+        }
+
+        if (cart.length === 0) {
+            alert("Количката е празна!");
+            return;
+        }
+
+        try {
+            // Записваме поръчката в нова колекция "orders"
+            await window.fb.addDoc(window.fb.collection(window.db, "orders"), {
+                userEmail: user.email,
+                userId: user.uid,
+                items: cart,
+                status: "Pending",
+                date: new Date()
+            });
+
+            alert("Поръчката е изпратена успешно! Ще се свържем с вас.");
+            cart = []; // Нулираме количката
+            document.getElementById('cart-count').innerText = "0";
+            cartSidebar.classList.remove('active');
+
+        } catch (error) {
+            console.error("Грешка при поръчка:", error);
+            alert("Грешка при плащането.");
+        }
+    });
+}
