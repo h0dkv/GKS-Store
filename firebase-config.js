@@ -21,14 +21,20 @@ const firebaseConfig = {
 // Инициализиране на Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Правим функциите достъпни за другите файлове (script.js)
 window.auth = auth;
+window.db = db;
 window.fb = {
     createUser: createUserWithEmailAndPassword,
     signIn: signInWithEmailAndPassword,
     onStateChange: onAuthStateChanged,
-    logOut: signOut
+    logOut: signOut,
+    // Firestore функции
+    getDocs: getDocs,
+    collection: collection,
+    addDoc: addDoc
 };
 
 console.log("Firebase е свързан успешно!");
