@@ -1,4 +1,4 @@
-// Импортиране на необходимите модули от Firebase CDN
+// 1. Импортиране на Auth модули
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
     getAuth,
@@ -8,7 +8,16 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// ТВОЯТА КОНФИГУРАЦИЯ (Вземи я от Firebase Console -> Project Settings)
+// 2. Импортиране на Firestore модули (ТОВА ЛИПСВАШЕ)
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    where
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyBbxuTXu50WYvlNsx4pdZsMcKt8FtcWzxc",
     authDomain: "gks-store.firebaseapp.com",
@@ -18,12 +27,12 @@ const firebaseConfig = {
     appId: "1:578918555641:web:8776277d020130bc522728"
 };
 
-// Инициализиране на Firebase
+// Инициализиране
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Правим функциите достъпни за другите файлове (script.js)
+// Експортиране към глобалния обект window
 window.auth = auth;
 window.db = db;
 window.fb = {
@@ -31,10 +40,12 @@ window.fb = {
     signIn: signInWithEmailAndPassword,
     onStateChange: onAuthStateChanged,
     logOut: signOut,
-    // Firestore функции
+    // Firestore функции - СЕГА ВЕЧЕ СА ДЕФИНИРАНИ
     getDocs: getDocs,
     collection: collection,
-    addDoc: addDoc
+    addDoc: addDoc,
+    query: query,
+    where: where
 };
 
-console.log("Firebase е свързан успешно!");
+console.log("Firebase & Firestore са свързани успешно!");
