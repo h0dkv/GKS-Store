@@ -163,7 +163,7 @@ if (addProductForm) {
             addProductForm.reset(); // Изчистваме формата
         } catch (error) {
             console.error("Грешка при добавяне:", error);
-            9            alert("Възникна грешка: " + error.message);
+                        alert("Възникна грешка: " + error.message);
         }
     });
 }
