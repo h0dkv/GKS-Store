@@ -1,43 +1,58 @@
-/* 1. Глобални Променливи */
+/* --- 1. Глобални Настройки и Променливи --- */
 :root {
     --cyan: #00c8e6;
-    --black: #000000;
-    --dark-grey: #0b0b0b;
-    --card-bg: #141414;
-    --border: #222222;
+    --cyan-glow: rgba(0, 200, 230, 0.3);
+    --black: #050505;
+    --dark-grey: #111111;
+    --card-bg: #1a1a1a;
+    --border: rgba(255, 255, 255, 0.1);
     --text-white: #ffffff;
     --text-gray: #a1a1a1;
+    --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-/* 2. Loader (Екран за зареждане) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: var(--black);
+    color: var(--text-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+span {
+    color: var(--cyan);
+}
+
+/* --- 2. Loader (Екран за зареждане) --- */
 #loader {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--black);
+    inset: 0;
+    background: var(--black);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    transition: opacity 0.5s ease, visibility 0.5s;
+    transition: opacity 0.6s ease, visibility 0.6s;
 }
 
 .spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid rgba(0, 200, 230, 0.1);
-    border-top: 5px solid var(--cyan);
+    width: 60px;
+    height: 60px;
+    border: 3px solid var(--border);
+    border-top: 3px solid var(--cyan);
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+    box-shadow: 0 0 15px var(--cyan-glow);
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
     100% {
         transform: rotate(360deg);
     }
@@ -48,33 +63,14 @@
     visibility: hidden;
 }
 
-/* 3. Основно нулиране */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-    scroll-behavior: smooth;
-}
-
-body {
-    background-color: var(--black);
-    color: var(--text-white);
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-span {
-    color: var(--cyan);
-}
-
-/* 4. Навигация */
+/* --- 3. Навигация (Navbar) --- */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 8%;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(15px);
     position: fixed;
     top: 0;
     width: 100%;
@@ -83,315 +79,183 @@ span {
 }
 
 .logo {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 900;
     letter-spacing: -1px;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 .nav-links {
     display: flex;
     list-style: none;
+    align-items: center;
 }
 
 .nav-links li {
-    margin-left: 30px;
+    margin-left: 25px;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--text-white);
+    font-size: 13px;
     font-weight: 600;
-    font-size: 14px;
     text-transform: uppercase;
-    transition: 0.3s;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    opacity: 0.8;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--cyan);
+    opacity: 1;
 }
 
-/* 5. Hero Секция */
+/* Специален бутон за Количка и Вход */
+#cart-icon {
+    font-size: 18px;
+    position: relative;
+}
+
+#cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: var(--cyan);
+    color: var(--black);
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 50%;
+    font-weight: 900;
+}
+
+.login-btn {
+    background: var(--cyan);
+    color: var(--black) !important;
+    padding: 8px 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px var(--cyan-glow);
+}
+
+/* --- 4. Hero Секция --- */
 .hero {
     height: 100vh;
-    background: radial-gradient(circle at center, #004d58 0%, var(--black) 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 0 20px;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url('https://images.unsplash.com/photo-1510566337590-2fc1f21d0faa?q=80&w=2070') no-repeat center/cover;
 }
 
 .hero h1 {
-    font-size: 5rem;
-    font-weight: 900;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    color: var(--text-gray);
-    max-width: 600px;
-}
-
-/* 6. Общи Стили за Страници */
-.about-container,
-.catalog,
-.contact-wrapper {
-    padding: 150px 8% 80px;
-    min-height: 80vh;
-}
-
-.text-block h2 {
-    font-size: 3rem;
+    font-style: italic;
+    /* По-динамичен спортен вид */
+    letter-spacing: -2px;
+    font-weight: 950;
+    line-height: 1;
     margin-bottom: 20px;
 }
 
-.logo-placeholder {
-    width: 300px;
-    height: 300px;
-    border: 5px solid var(--cyan);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 4rem;
-    font-weight: 900;
-    color: var(--cyan);
-    box-shadow: 0 0 30px rgba(0, 200, 230, 0.2);
+.hero p {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    max-width: 600px;
+    margin-bottom: 30px;
 }
 
-/* Catalog */
-.bg-darker {
-    background-color: var(--dark-grey);
+/* --- 5. Каталог и Карти (Products) --- */
+.catalog {
+    padding: 120px 8%;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 40px;
     margin-top: 50px;
 }
 
 .card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    padding: 20px;
-    border-radius: 4px;
-    transition: 0.3s;
+    padding: 15px;
+    border-radius: 12px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
 }
 
 .card:hover {
     border-color: var(--cyan);
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .img-box {
     width: 100%;
-    height: 250px;
-    background: #1a1a1a;
+    height: 300px;
+    background-color: #0d0d0d;
+    border-radius: 8px;
     margin-bottom: 20px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .img-box {
+    transform: scale(1.05);
+}
+
+.card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
 }
 
 .price {
-    font-size: 20px;
-    font-weight: 800;
+    font-size: 1.5rem;
+    font-weight: 900;
     color: var(--cyan);
-    margin: 10px 0;
+    margin-bottom: 20px;
 }
 
-/* 7. Форми и Бутони */
-.input-field,
-.textarea-field {
-    width: 100%;
-    padding: 15px;
-    background: var(--black);
-    border: 1px solid var(--border);
-    color: white;
-    margin-bottom: 15px;
-    outline: none;
-    transition: 0.3s;
-}
-
-.input-field:focus,
-.textarea-field:focus {
-    border-color: var(--cyan);
-}
-
+/* --- 6. Бутони --- */
 .cta-btn,
 .btn-buy {
-    padding: 15px 35px;
-    background: var(--cyan);
-    color: var(--black);
-    border: none;
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
     font-weight: 700;
     text-transform: uppercase;
     cursor: pointer;
-    transition: 0.3s;
-    border-radius: 2px;
-}
-
-.btn-buy {
-    width: 100%;
+    transition: var(--transition);
+    border-radius: 6px;
 }
 
 .cta-btn:hover,
 .btn-buy:hover {
-    background: var(--text-white);
-    transform: scale(1.05);
-}
-
-/* 8. Footer */
-.main-footer {
-    padding: 40px 8%;
-    border-top: 1px solid var(--border);
-    text-align: center;
-    color: var(--text-gray);
-    font-size: 14px;
-}
-
-/* 9. Адаптивност */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 3rem;
-    }
-
-    .about-content {
-        text-align: center;
-        flex-direction: column-reverse;
-    }
-}
-
-/* Auth Styles */
-.auth-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: radial-gradient(circle at top right, #002b31 0%, var(--black) 60%);
-}
-
-.auth-container {
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-}
-
-.auth-box {
-    background: var(--card-bg);
-    padding: 40px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
-
-.auth-box h2 {
-    margin: 20px 0 30px;
-    font-size: 1.5rem;
-}
-
-.auth-footer {
-    margin-top: 25px;
-    font-size: 14px;
-    color: var(--text-gray);
-}
-
-.auth-footer a {
-    color: var(--cyan);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.auth-footer a:hover {
-    text-decoration: underline;
-}
-
-.login-btn {
     background: var(--cyan);
-    color: var(--black) !important;
-    padding: 8px 18px;
-    border-radius: 4px;
-    font-weight: 800 !important;
+    color: var(--black);
+    box-shadow: 0 0 20px var(--cyan-glow);
 }
 
-/* --- Стили за Админ Панела --- */
-
-/* Контейнер за формата (използваме съществуващия contact-wrapper) */
-.contact-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-/* Стилизиране на числовите полета (Input Number) */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Полетата във формата */
-.styled-form input.input-field {
-    font-size: 16px;
-    border: 1px solid var(--border);
-    transition: all 0.3s ease;
-}
-
-/* Ефект при фокус върху полето */
-.styled-form input.input-field:focus {
-    border-color: var(--cyan);
-    box-shadow: 0 0 10px rgba(0, 200, 230, 0.2);
-    background: #050505;
-}
-
-/* Допълнително за бутона в админ панела */
-#addProductForm .cta-btn {
-    margin-top: 10px;
-    letter-spacing: 2px;
-    font-size: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Стил за съобщения за успех/грешка (ако решиш да добавиш по-късно) */
-.admin-msg {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-/* Адаптивност за мобилни устройства */
-@media (max-width: 600px) {
-
-    .auth-box,
-    .contact-info {
-        padding: 20px;
-        width: 90%;
-    }
-
-    .hero h1 {
-        font-size: 3rem;
-    }
-}
-
-/* Количка Panel */
+/* --- 7. Странична Количка (Cart Sidebar) --- */
 .cart-sidebar {
     position: fixed;
     top: 0;
-    right: -400px;
-    /* Скрита по подразбиране */
-    width: 350px;
+    right: -100%;
+    width: 400px;
     height: 100%;
-    background: var(--card-bg);
+    background: #0a0a0a;
     border-left: 1px solid var(--border);
     z-index: 2000;
-    transition: 0.4s ease;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+    padding: 40px;
+    transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .cart-sidebar.active {
@@ -402,48 +266,152 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 #close-cart {
     font-size: 30px;
     cursor: pointer;
-    color: var(--cyan);
 }
 
-.cart-items-container {
-    flex: 1;
-    overflow-y: auto;
-    margin-top: 20px;
+/* --- 8. Форми (Login/Admin) --- */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-.cart-item {
+.auth-box,
+.contact-info {
+    background: var(--card-bg);
+    padding: 50px;
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 450px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px;
+    background: var(--black);
+    border: 1px solid var(--border);
+    color: white;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: var(--cyan);
+}
+
+/* --- 9. Footer --- */
+.main-footer {
+    padding: 60px 8%;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    opacity: 0.5;
+    font-size: 12px;
+}
+
+/* --- 10. Адаптивност (Mobile) --- */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    /* Тук може да добавиш мобилно меню */
+    .hero h1 {
+        font-size: 4rem;
+    }
+
+    .cart-sidebar {
+        width: 100%;
+    }
+}
+
+/* --- Специфични стилове за About страницата --- */
+
+.about-container {
+    padding: 150px 8% 80px; /* Достатъчно място под навигацията */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: radial-gradient(circle at top left, #002b31 0%, var(--black) 50%);
+}
+
+.about-content {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
-    padding: 10px;
-    background: var(--black);
-    border-radius: 4px;
+    align-items: center;
+    gap: 60px;
+    width: 100%;
 }
 
-.cart-footer {
-    border-top: 1px solid var(--border);
-    padding-top: 15px;
+.text-block {
+    flex: 1;
 }
 
-.total-price {
+.text-block h2 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem); /* Адаптивен размер */
+    font-weight: 950;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    font-style: italic; /* Спортен акцент */
+    letter-spacing: -2px;
+}
+
+.text-block p {
     font-size: 1.2rem;
-    font-weight: 800;
-    margin-bottom: 15px;
-    text-align: right;
+    color: var(--text-gray);
+    max-width: 550px;
+    line-height: 1.8;
 }
 
-#cart-count {
-    background: var(--cyan);
-    color: var(--black);
-    padding: 2px 6px;
-    border-radius: 50%;
-    font-size: 10px;
-    vertical-align: top;
+.image-block {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-placeholder {
+    width: clamp(250px, 30vw, 400px); /* Адаптивен квадрат */
+    height: clamp(250px, 30vw, 400px);
+    border: 10px solid var(--cyan);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 6rem;
+    font-weight: 900;
+    color: var(--cyan);
+    box-shadow: 0 0 50px var(--cyan-glow);
+    transform: rotate(-5deg); /* Динамичен наклон */
+    transition: var(--transition);
+    background: rgba(0, 200, 230, 0.05);
+}
+
+.logo-placeholder:hover {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 0 0 70px var(--cyan);
+}
+
+/* Адаптивност за малки екрани */
+@media (max-width: 968px) {
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .text-block p {
+        margin: 0 auto;
+    }
+
+    .logo-placeholder {
+        margin-top: 40px;
+    }
 }

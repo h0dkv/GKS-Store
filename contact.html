@@ -18,6 +18,7 @@
             <li><a href="product.html">Продукти</a></li>
             <li><a href="contact.html">Контакти</a></li>
             <li id="auth-status"><a href="login.html" class="login-btn">Вход</a></li>
+            <li><a href="#" id="cart-icon">🛒 <span id="cart-count">0</span></a></li>
         </ul>
     </nav>
 
@@ -35,18 +36,15 @@
 
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
-            <h3>Твоята Количка</h3>
+            <h3>Твоят избор</h3>
             <span id="close-cart">&times;</span>
         </div>
-        <div id="cart-items" class="cart-items-container">
-        </div>
+        <div id="cart-items" class="cart-items-container"></div>
         <div class="cart-footer">
             <div class="total-price">Общо: <span id="cart-total">0.00</span> €</div>
-            <button id="checkout-btn" class="cta-btn" style="width: 100%;">ПЛАЩАНЕ</button>
+            <button id="checkout-btn" class="cta-btn">ПОРЪЧАЙ СЕГА</button>
         </div>
     </div>
-
-    <li><a href="#" id="cart-icon">🛒 <span id="cart-count">0</span></a></li>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module" src="firebase-config.js"></script>
