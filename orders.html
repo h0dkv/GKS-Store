@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моите Поръчки | GKS STORE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <div class="logo-bg">
+                    <img src="images/logo.png" alt="GKS Store Logo" class="navbar-logo">
+                </div>
+                <span>STORE</span>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Начало</a></li>
+            <li><a href="product.html">Продукти</a></li>
+            <li id="auth-status"></li>
+            <li><a href="#" id="cart-icon">🛒 <span id="cart-count">0</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="catalog">
+        <div class="hero-content" style="text-align: center; margin-bottom: 50px;" data-aos="fade-down">
+            <h1>МОИТЕ <span>ПОРЪЧКИ</span></h1>
+            <p>Тук можете да следите статуса на вашите поръчки.</p>
+        </div>
+
+        <div id="orders-container" class="orders-list">
+            <p style="text-align: center; opacity: 0.5;">Зареждане на поръчки...</p>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>

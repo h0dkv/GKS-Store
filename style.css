@@ -148,7 +148,7 @@ span {
     align-items: center;
     text-align: center;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-        url('https://images.unsplash.com/photo-1510566337590-2fc1f21d0faa?q=80&w=2070') no-repeat center/cover;
+        url('images/hero-bg.jpg') no-repeat center/cover;
 }
 
 .hero h1 {
@@ -335,7 +335,8 @@ span {
 /* --- Специфични стилове за About страницата --- */
 
 .about-container {
-    padding: 150px 8% 80px; /* Достатъчно място под навигацията */
+    padding: 150px 8% 80px;
+    /* Достатъчно място под навигацията */
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -355,12 +356,14 @@ span {
 }
 
 .text-block h2 {
-    font-size: clamp(2.5rem, 5vw, 4.5rem); /* Адаптивен размер */
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    /* Адаптивен размер */
     font-weight: 950;
     line-height: 1.1;
     margin-bottom: 25px;
     text-transform: uppercase;
-    font-style: italic; /* Спортен акцент */
+    font-style: italic;
+    /* Спортен акцент */
     letter-spacing: -2px;
 }
 
@@ -379,7 +382,8 @@ span {
 }
 
 .logo-placeholder {
-    width: clamp(250px, 30vw, 400px); /* Адаптивен квадрат */
+    width: clamp(250px, 30vw, 400px);
+    /* Адаптивен квадрат */
     height: clamp(250px, 30vw, 400px);
     border: 10px solid var(--cyan);
     display: flex;
@@ -389,7 +393,8 @@ span {
     font-weight: 900;
     color: var(--cyan);
     box-shadow: 0 0 50px var(--cyan-glow);
-    transform: rotate(-5deg); /* Динамичен наклон */
+    transform: rotate(-5deg);
+    /* Динамичен наклон */
     transition: var(--transition);
     background: rgba(0, 200, 230, 0.05);
 }
@@ -413,5 +418,425 @@ span {
 
     .logo-placeholder {
         margin-top: 40px;
+    }
+}
+
+/* --- Специфични стилове за страница Контакти --- */
+
+.contact-wrapper {
+    padding: 150px 8% 80px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at bottom right, #002b31 0%, var(--black) 60%);
+}
+
+.contact-info {
+    background: var(--card-bg);
+    padding: 50px;
+    border-radius: 15px;
+    /* Малко по-заоблено за модерна визия */
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.contact-info h2 {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-style: italic;
+    margin-bottom: 30px;
+    letter-spacing: -1px;
+}
+
+/* Стилизиране на формата */
+.styled-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-field,
+.textarea-field {
+    width: 100%;
+    padding: 15px 20px;
+    background: var(--black);
+    border: 1px solid var(--border);
+    color: var(--text-white);
+    font-size: 1rem;
+    border-radius: 6px;
+    outline: none;
+    transition: var(--transition);
+}
+
+.textarea-field {
+    min-height: 150px;
+    resize: none;
+    /* Премахва опцията за ръчно разпъване, за да не се чупи дизайна */
+}
+
+/* Ефект при кликване в полето */
+.input-field:focus,
+.textarea-field:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 15px var(--cyan-glow);
+    background: #080808;
+}
+
+/* Бутонът в контактната форма */
+.contact-info .cta-btn {
+    margin-top: 10px;
+    padding: 18px;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    border-radius: 6px;
+}
+
+/* Адаптивност за мобилни устройства */
+@media (max-width: 600px) {
+    .contact-info {
+        padding: 30px 20px;
+    }
+
+    .contact-info h2 {
+        font-size: 2rem;
+    }
+}
+
+/* --- FOOTER СТИЛИЗАЦИЯ --- */
+.main-footer {
+    background-color: #080808;
+    padding: 70px 8% 20px;
+    border-top: 1px solid var(--border);
+    margin-top: 50px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.footer-section h4 {
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.footer-section p {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a,
+.footer-section p a {
+    color: var(--text-gray);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-section ul li a:hover,
+.footer-section p a:hover {
+    color: var(--cyan);
+    padding-left: 5px;
+    /* Лек ефект на преместване */
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: #444;
+    font-size: 0.85rem;
+}
+
+/* Адаптивност за мобилни */
+@media (max-width: 768px) {
+    .footer-content {
+        text-align: center;
+    }
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 10px;
+    /* Разстояние между снимката и думата STORE */
+}
+
+.navbar-logo {
+    height: 45px;
+    /* Регулирай височината според твоето лого */
+    width: auto;
+    /* Запазва пропорциите */
+    display: block;
+    transition: var(--transition);
+}
+
+.logo:hover .navbar-logo {
+    transform: scale(1.05);
+    /* Леко уголемяване при посочване */
+    filter: drop-shadow(0 0 8px var(--cyan-glow));
+    /* Неоново сияние около логото */
+}
+
+/* Оптимизация за мобилни устройства */
+@media (max-width: 768px) {
+    .navbar-logo {
+        height: 35px;
+    }
+}
+
+/* Стилизиране на блока за основателя */
+.founder-frame {
+    position: relative;
+    width: clamp(280px, 35vw, 450px);
+    height: clamp(350px, 45vw, 550px);
+    z-index: 1;
+}
+
+.founder-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Реже снимката правилно без да я разтяга */
+    border: 2px solid var(--border);
+    filter: grayscale(30%);
+    /* Лек драматичен ефект */
+    transition: var(--transition);
+}
+
+.founder-frame:hover .founder-img {
+    filter: grayscale(0%);
+    border-color: var(--cyan);
+}
+
+/* Декоративен акцент зад снимката */
+.frame-accent {
+    position: absolute;
+    top: 20px;
+    left: -20px;
+    width: 100%;
+    height: 100%;
+    border: 3px solid var(--cyan);
+    z-index: -1;
+    transition: var(--transition);
+}
+
+.founder-frame:hover .frame-accent {
+    top: 0;
+    left: 0;
+    background: var(--cyan-glow);
+}
+
+/* Адаптивност за мобилни устройства */
+@media (max-width: 968px) {
+    .founder-frame {
+        width: 280px;
+        height: 380px;
+        margin: 0 auto;
+    }
+}
+
+/* --- Стилизиране на логото с цианов фон --- */
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 15px;
+    /* Разстояние между циановия блок и думата STORE */
+}
+
+/* Контейнерът с цианов фон */
+.logo-bg {
+    background-color: var(--cyan);
+    padding: 10px 20px;
+    /* Пространство около картинката */
+    border-radius: 4px;
+    /* Леко заоблени ъгли */
+    box-shadow: 0 0 20px var(--cyan);
+    /* Силно сияние */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: skewX(-10deg);
+    /* Спортен наклон за динамика */
+    transition: var(--transition);
+}
+
+/* Самата картинка вътре */
+.navbar-logo {
+    height: 35px;
+    /* Регулирай височината според картинката */
+    width: auto;
+    display: block;
+    transform: skewX(10deg);
+    /* Изправяме картинката обратно, за да не е наклонена тя */
+    filter: brightness(0) invert(1);
+    /* ПРАВИ КАРТИНКАТА БЯЛА (ако е черна), за да изпъква на циановия фон */
+}
+
+/* Ефект при посочване с мишката */
+.logo:hover .logo-bg {
+    background-color: var(--text-white);
+    /* Променя фона на бял при hover */
+    box-shadow: 0 0 30px var(--text-white);
+    transform: skewX(-10deg) scale(1.05);
+    /* Леко уголемяване */
+}
+
+/* Изправяме и картинката при hover, ако сме променили цвета на фона */
+.logo:hover .navbar-logo {
+    filter: brightness(0);
+    /* Прави картинката черна на белия фон */
+}
+
+/* Думата STORE */
+.logo span {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--text-white);
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+/* Мобилна оптимизация */
+@media (max-width: 768px) {
+    .logo-bg {
+        padding: 8px 15px;
+    }
+
+    .navbar-logo {
+        height: 25px;
+    }
+
+    .logo span {
+        font-size: 18px;
+    }
+}
+
+/* Контейнер на потребителското меню */
+.user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+/* Падащото меню */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: var(--card-bg);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border);
+    z-index: 1001;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+/* Линковете в менюто */
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    text-transform: none;
+    transition: background 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--cyan);
+    color: var(--black);
+}
+
+/* Показване при hover */
+.user-menu:hover .dropdown-content {
+    display: block;
+}
+
+#logoutBtn {
+    color: #ff4d4d !important;
+    /* Червен цвят за изход */
+    border-top: 1px solid var(--border);
+}
+
+/* --- Стилизиране на Поръчките --- */
+.orders-list {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 25px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.order-card:hover {
+    border-color: var(--cyan);
+}
+
+.order-info h3 {
+    font-size: 1.1rem;
+    color: var(--cyan);
+    margin-bottom: 5px;
+}
+
+.order-info p {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.order-status {
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: rgba(0, 200, 230, 0.1);
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+}
+
+.order-items-list {
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+    .order-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
     }
 }

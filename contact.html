@@ -5,13 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Контакти | GKS STORE</title>
+    <link rel="icon" type="image/png" href="images/logo.jpg">
     <link rel="stylesheet" href="style.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 <body>
     <nav class="navbar">
-        <div class="logo">GKS<span>STORE</span></div>
+        <div class="logo">
+            <a href="index.html">
+                <div class="logo-bg">
+                    <img src="images/logo.png" alt="GKS Store Logo" class="navbar-logo">
+                </div>
+                <span>STORE</span>
+            </a>
+        </div>
         <ul class="nav-links">
             <li><a href="index.html">Начало</a></li>
             <li><a href="about.html">За нас</a></li>
@@ -45,6 +53,37 @@
             <button id="checkout-btn" class="cta-btn">ПОРЪЧАЙ СЕГА</button>
         </div>
     </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="logo">GKS<span> STORE</span></div>
+                <p>Goalkeepers Store е специализиран магазин за висококачествена екипировка за вратари. Ние разбираме
+                    нуждите на последния човек в защитата.</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Бързи връзки</h4>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="product.html">Ръкавици</a></li>
+                    <li><a href="about.html">Технологии</a></li>
+                    <li><a href="contact.html">Контакти</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Контакти</h4>
+                <p>📧 <a href="mailto:office@gksgloves.com">office@gksgloves.com</a></p>
+                <p>📞 <a href="tel:+359888123456">+359 888 123 456</a></p>
+                <p>📍 гр. София, България</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 GKS Store. Всички права запазени.</p>
+        </div>
+    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module" src="firebase-config.js"></script>
