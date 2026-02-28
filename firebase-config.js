@@ -43,9 +43,11 @@ window.fb = {
     // Firestore функции - СЕГА ВЕЧЕ СА ДЕФИНИРАНИ
     getDocs: getDocs,
     collection: collection,
-    addDoc: addDoc,
-    query: query,
-    where: where
+    addDoc: addDoc, // ТОВА Е ВАЖНО ЗА КАЧВАНЕТО
+    doc: doc,
+    getDoc: getDoc,
+    setDoc: setDoc,
+    updateDoc: updateDoc
 };
 
 console.log("Firebase & Firestore са свързани успешно!");

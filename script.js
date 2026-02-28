@@ -196,3 +196,42 @@ async function loadUserOrders(user) {
         console.error(e);
     }
 }
+
+const addProductForm = document.getElementById('addProductForm');
+
+if (addProductForm) {
+    addProductForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // 1. Взимаме стойностите
+        const name = document.getElementById('prodName').value;
+        const price = parseFloat(document.getElementById('prodPrice').value);
+        const image = document.getElementById('prodImage').value;
+
+        // Валидация
+        if (!name || isNaN(price) || !image) {
+            alert("Моля, попълнете всички полета правилно!");
+            return;
+        }
+
+        try {
+            console.log("Опит за качване на продукт...");
+
+            // 2. Използваме window.fb.addDoc
+            const docRef = await window.fb.addDoc(window.fb.collection(window.db, "products"), {
+                name: name,
+                price: price,
+                image: image,
+                createdAt: new Date()
+            });
+
+            console.log("Продуктът е качен с ID: ", docRef.id);
+            alert("✅ Продуктът е добавен успешно в Goalkeepers Store!");
+            addProductForm.reset();
+
+        } catch (error) {
+            console.error("Грешка при добавяне:", error);
+            alert("Грешка при качване: " + error.message);
+        }
+    });
+}
