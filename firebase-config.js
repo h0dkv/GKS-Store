@@ -8,14 +8,18 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// 2. Импортиране на Firestore модули (ТОВА ЛИПСВАШЕ)
+// 2. Импортиране на Firestore модули (СЪБРАНИ НА ЕДНО МЯСТО)
 import {
     getFirestore,
     collection,
     addDoc,
     getDocs,
     query,
-    where
+    where,
+    doc,
+    setDoc,
+    getDoc,
+    updateDoc
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -33,10 +37,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // Експортиране към глобалния обект window
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, getDocs, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-// ... инициализация на app, auth, db ...
-
+window.auth = auth;
+window.db = db;
 window.fb = {
     createUser: createUserWithEmailAndPassword,
     signIn: signInWithEmailAndPassword,
@@ -54,9 +56,5 @@ window.fb = {
     where: where,
     updateDoc: updateDoc
 };
-window.auth = auth;
-window.db = db;
 
-console.log("✅ window.fb е дефиниран успешно!");
-
-console.log("Firebase & Firestore са свързани успешно!");
+console.log("✅ Firebase & Firestore са свързани успешно!");
