@@ -1,6 +1,6 @@
 // --- 1. ГЛОБАЛНИ НАСТРОЙКИ ---
 let cart = [];
-const ADMIN_EMAIL = "твой-админ-имейл@gmail.com"; // Промени го с твоя
+const ADMIN_EMAIL = "hristianfortnite@gmail.com"; // Промени го с твоя
 
 // --- 2. ИНИЦИАЛИЗАЦИЯ ПРИ ЗАРЕЖДАНЕ ---
 window.addEventListener("load", () => {
