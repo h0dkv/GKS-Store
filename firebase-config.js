@@ -33,21 +33,30 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // Експортиране към глобалния обект window
-window.auth = auth;
-window.db = db;
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, getDocs, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+// ... инициализация на app, auth, db ...
+
 window.fb = {
     createUser: createUserWithEmailAndPassword,
     signIn: signInWithEmailAndPassword,
     onStateChange: onAuthStateChanged,
     logOut: signOut,
-    // Firestore функции - СЕГА ВЕЧЕ СА ДЕФИНИРАНИ
-    getDocs: getDocs,
-    collection: collection,
-    addDoc: addDoc, // ТОВА Е ВАЖНО ЗА КАЧВАНЕТО
+    // Firestore функции
+    db: db,
     doc: doc,
-    getDoc: getDoc,
     setDoc: setDoc,
+    getDoc: getDoc,
+    addDoc: addDoc,
+    collection: collection,
+    getDocs: getDocs,
+    query: query,
+    where: where,
     updateDoc: updateDoc
 };
+window.auth = auth;
+window.db = db;
+
+console.log("✅ window.fb е дефиниран успешно!");
 
 console.log("Firebase & Firestore са свързани успешно!");
