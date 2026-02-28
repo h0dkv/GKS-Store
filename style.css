@@ -840,3 +840,56 @@ span {
         gap: 15px;
     }
 }
+
+.users-grid {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    gap: 15px;
+}
+
+.user-admin-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.user-admin-card:hover {
+    border-color: var(--cyan);
+}
+
+.user-email {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.user-role span.admin {
+    color: var(--cyan);
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.btn-make-admin {
+    background: var(--cyan);
+    color: var(--black);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-make-user {
+    background: transparent;
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}

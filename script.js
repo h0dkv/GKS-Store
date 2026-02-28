@@ -17,42 +17,31 @@ window.addEventListener("load", () => {
 });
 
 // --- 3. ЛОГИКА ЗА ПОТРЕБИТЕЛСКИ СТАТУС ---
-function checkLoginStatus() {
-    window.fb.onStateChange(window.auth, (user) => {
+async function checkLoginStatus() {
+    window.fb.onStateChange(window.auth, async (user) => {
         const authStatus = document.getElementById('auth-status');
+        if (!authStatus) return;
 
         if (user) {
-            console.log("Влязъл потребител:", user.email);
-            const isAdmin = user.email === ADMIN_EMAIL;
+            // Взимаме данните за потребителя от Firestore
+            const userDoc = await window.fb.getDoc(window.fb.doc(window.db, "users", user.uid));
+            const userData = userDoc.data();
+            const isAdmin = userData && userData.role === "admin";
 
-            if (authStatus) {
-                authStatus.innerHTML = `
-                    <div class="user-menu">
-                        <a href="#" class="login-btn">👤 Моят Профил</a>
-                        <div class="dropdown-content">
-                            ${isAdmin ? '<a href="admin.html">Админ Панел</a>' : ''}
-                            <a href="orders.html">Моите Поръчки</a>
-                            <a href="#" id="logoutBtn" style="color: #ff4d4d;">Изход</a>
-                        </div>
+            authStatus.innerHTML = `
+                <div class="user-menu">
+                    <a href="#" class="login-btn">👤 ${isAdmin ? 'Админ' : 'Профил'}</a>
+                    <div class="dropdown-content">
+                        ${isAdmin ? '<a href="admin-users.html">Управление на потребители</a>' : ''}
+                        ${isAdmin ? '<a href="admin.html">Добави Продукт</a>' : ''}
+                        <a href="orders.html">Моите Поръчки</a>
+                        <a href="#" id="logoutBtn" style="color:red">Изход</a>
                     </div>
-                `;
+                </div>`;
 
-                document.getElementById('logoutBtn').onclick = (e) => {
-                    e.preventDefault();
-                    window.fb.logOut(window.auth).then(() => {
-                        window.location.href = "index.html";
-                    });
-                };
-            }
-
-            // Ако сме на страницата за поръчки, зареждаме историята
-            if (window.location.pathname.includes('orders.html')) {
-                loadUserOrders(user);
-            }
+            document.getElementById('logoutBtn').onclick = () => window.fb.logOut(window.auth);
         } else {
-            if (authStatus) {
-                authStatus.innerHTML = `<a href="login.html" class="login-btn">Вход</a>`;
-            }
+            authStatus.innerHTML = `<a href="login.html" class="login-btn">Вход</a>`;
         }
     });
 }
@@ -79,11 +68,21 @@ if (regForm) {
         e.preventDefault();
         const email = regForm.querySelector('input[type="email"]').value;
         const password = regForm.querySelector('input[type="password"]').value;
+
         try {
-            await window.fb.createUser(window.auth, email, password);
-            window.location.href = "index.html";
+            // 1. Създаваме акаунта в Auth
+            const userCredential = await window.fb.createUser(window.auth, email, password);
+            const user = userCredential.user;
+
+            // 2. Записваме ролята в Firestore
+            await window.fb.setDoc(window.fb.doc(window.db, "users", user.uid), {
+                email: email,
+                role: "user" // По подразбиране е обикновен потребител
+            });
+
+            window.location.href = 'index.html';
         } catch (err) {
-            alert("Грешка при регистрация: " + err.message);
+            alert("Грешка: " + err.message);
         }
     });
 }
