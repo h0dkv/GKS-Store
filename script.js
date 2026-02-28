@@ -174,8 +174,8 @@ if (checkoutBtn) {
 
 // --- 8. ИСТОРИЯ НА ПОРЪЧКИТЕ ---
 async function loadUserOrders(user) {
+    console.log("Зареждам поръчки за:", user.uid); // Добави това за проверка
     const container = document.getElementById('orders-container');
-    if (!container) return;
 
     try {
         const q = window.fb.query(
