@@ -97,29 +97,41 @@ async function loadProducts() {
     const container = document.getElementById('products-container');
     if (!container) return;
 
-    try {
-        const querySnapshot = await window.fb.getDocs(window.fb.collection(window.db, "products"));
-        container.innerHTML = "";
+    const querySnapshot = await window.fb.getDocs(window.fb.collection(window.db, "products"));
+    container.innerHTML = "";
 
-        querySnapshot.forEach((doc) => {
-            const product = doc.data();
-            container.innerHTML += `
-                        <div class="card" data-aos="fade-up">
-                            <div class="img-box" style="background-image: url('${product.image || ''}');"></div>
-                            <h3>${product.name}</h3>
-                            <p class="price">${Number(product.price).toFixed(2)} €</p>
-                            <select id="size-${doc.id}" class="input-field" style="margin-bottom: 10px;">
-                                <option value="">Избери размер</option>
-                                <option value="7">7</option><option value="8">8</option>
-                                <option value="9">9</option><option value="10">10</option>
-                                <option value="11">11</option>
-                            </select>
-                            <button class="btn-buy" onclick="addToCartWithSize('${doc.id}', '${product.name}', ${product.price})">Добави в количката</button>
-                        </div>`;
-        });
-    } catch (error) {
-        console.error("Грешка при продуктите:", error);
-    }
+    querySnapshot.forEach((doc) => {
+        const p = doc.data();
+
+        // Логика за размерите
+        let sizeOptions = "";
+        if (p.category === "clothing") {
+            sizeOptions = `
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>`;
+        } else {
+            // По подразбиране за ръкавици
+            sizeOptions = `
+                <option value="7">7</option><option value="8">8</option>
+                <option value="9">9</option><option value="10">10</option>
+                <option value="11">11</option>`;
+        }
+
+        container.innerHTML += `
+            <div class="card">
+                <div class="img-box" style="background-image: url('${p.image}')"></div>
+                <h3>${p.name}</h3>
+                <p>${p.price.toFixed(2)} €</p>
+                <select id="size-${doc.id}" class="input-field">
+                    <option value="">Размер</option>
+                    ${sizeOptions}
+                </select>
+                <button class="btn-buy" onclick="addToCartWithSize('${doc.id}', '${p.name}', ${p.price})">Добави</button>
+            </div>`;
+    });
 }
 
 // --- 6. КОЛИЧКА ---
@@ -212,9 +224,10 @@ if (addProductForm) {
         const name = document.getElementById('prodName').value;
         const price = parseFloat(document.getElementById('prodPrice').value);
         const image = document.getElementById('prodImage').value;
+        const category = document.getElementById('prodCategory').value;
 
         // Валидация
-        if (!name || isNaN(price) || !image) {
+        if (!name || isNaN(price) || !image || !category    ) {
             alert("Моля, попълнете всички полета правилно!");
             return;
         }
@@ -223,11 +236,12 @@ if (addProductForm) {
             console.log("Опит за качване на продукт...");
 
             // 2. Използваме window.fb.addDoc
-            const docRef = await window.fb.addDoc(window.fb.collection(window.db, "products"), {
-                name: name,
-                price: price,
-                image: image,
-                createdAt: new Date()
+                const docRef = await window.fb.addDoc(window.fb.collection(window.db, "products"), {
+                    name: name,
+                    price: price,
+                    image: image,
+                    category: category,
+                    createdAt: new Date()
             });
 
             console.log("Продуктът е качен с ID: ", docRef.id);
