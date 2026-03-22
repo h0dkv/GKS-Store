@@ -142,8 +142,37 @@ window.addToCartWithSize = function (id, name, price) {
         return;
     }
     cart.push({ id, name, price, size });
-    document.getElementById('cart-count').innerText = cart.length;
+    updateCartUI();
     alert(`Добавено: ${name} (Размер ${size})`);
+};
+
+function updateCartUI() {
+    const countEl = document.getElementById('cart-count');
+    const itemsEl = document.getElementById('cart-items');
+    const totalEl = document.getElementById('cart-total');
+    if (countEl) countEl.innerText = cart.length;
+    if (itemsEl) {
+        itemsEl.innerHTML = cart.map((item, i) => `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
+                <div>
+                    <p style="font-weight:700">${item.name}</p>
+                    <p style="font-size:0.8rem;color:var(--text-gray)">Размер: ${item.size}</p>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                    <span style="color:var(--cyan);font-weight:700">${item.price.toFixed(2)} €</span>
+                    <span onclick="removeFromCart(${i})" style="cursor:pointer;color:#ff4d4d;font-size:1.2rem">&times;</span>
+                </div>
+            </div>`).join('');
+    }
+    if (totalEl) {
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        totalEl.innerText = total.toFixed(2);
+    }
+}
+
+window.removeFromCart = function (index) {
+    cart.splice(index, 1);
+    updateCartUI();
 };
 
 // Странично меню за количка
@@ -184,35 +213,6 @@ if (checkoutBtn) {
     };
 }
 
-// --- 8. ИСТОРИЯ НА ПОРЪЧКИТЕ ---
-async function loadUserOrders(user) {
-    console.log("Зареждам поръчки за:", user.uid); // Добави това за проверка
-    const container = document.getElementById('orders-container');
-
-    try {
-        const q = window.fb.query(
-            window.fb.collection(window.db, "orders"),
-            window.fb.where("userId", "==", user.uid)
-        );
-        const snapshot = await window.fb.getDocs(q);
-        container.innerHTML = snapshot.empty ? '<p>Нямате поръчки.</p>' : '';
-
-        snapshot.forEach(doc => {
-            const order = doc.data();
-            const items = order.items.map(i => `${i.name} (${i.size})`).join(', ');
-            container.innerHTML += `
-                        <div class="order-card" data-aos="fade-up">
-                            <div class="order-info">
-                                <h3>Поръчка #${doc.id.substring(0, 6)}</h3>
-                                <p>${items}</p>
-                            </div>
-                            <div class="order-status">${order.status}</div>
-                        </div>`;
-        });
-    } catch (e) {
-        console.error(e);
-    }
-}
 
 const addProductForm = document.getElementById('addProductForm');
 
@@ -227,7 +227,7 @@ if (addProductForm) {
         const category = document.getElementById('prodCategory').value;
 
         // Валидация
-        if (!name || isNaN(price) || !image || !category    ) {
+        if (!name || isNaN(price) || !image || !category) {
             alert("Моля, попълнете всички полета правилно!");
             return;
         }
@@ -236,12 +236,12 @@ if (addProductForm) {
             console.log("Опит за качване на продукт...");
 
             // 2. Използваме window.fb.addDoc
-                const docRef = await window.fb.addDoc(window.fb.collection(window.db, "products"), {
-                    name: name,
-                    price: price,
-                    image: image,
-                    category: category,
-                    createdAt: new Date()
+            const docRef = await window.fb.addDoc(window.fb.collection(window.db, "products"), {
+                name: name,
+                price: price,
+                image: image,
+                category: category,
+                createdAt: new Date()
             });
 
             console.log("Продуктът е качен с ID: ", docRef.id);

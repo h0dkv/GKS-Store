@@ -43,7 +43,42 @@
     <script type="module" src="firebase-config.js"></script>
     <script src="script.js"></script>
     <script>
-        AOS.init();
+        AOS.init({ duration: 1000, once: true });
+    </script>
+    <script type="module">
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const auth = getAuth();
+        const db = getFirestore();
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+            const container = document.getElementById('orders-container');
+            try {
+                const q = query(collection(db, "orders"), where("userId", "==", user.uid));
+                const snapshot = await getDocs(q);
+                container.innerHTML = snapshot.empty ? '<p style="text-align:center;opacity:0.5;">Нямате поръчки.</p>' : '';
+                snapshot.forEach(doc => {
+                    const order = doc.data();
+                    const items = order.items.map(i => `${i.name} (${i.size})`).join(', ');
+                    container.innerHTML += `
+                        <div class="order-card" data-aos="fade-up">
+                            <div class="order-info">
+                                <h3>Поръчка #${doc.id.substring(0, 6)}</h3>
+                                <p>${items}</p>
+                            </div>
+                            <div class="order-status">${order.status}</div>
+                        </div>`;
+                });
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = '<p style="text-align:center;color:red;">Грешка при зареждане.</p>';
+            }
+        });
     </script>
 </body>
 
