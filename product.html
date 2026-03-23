@@ -23,7 +23,7 @@
         <ul class="nav-links">
             <li><a href="index.html">Начало</a></li>
             <li><a href="about.html">За нас</a></li>
-            <li><a href="product.html">Продукти</a></li>
+            <li><a href="product.html" class="active">Продукти</a></li>
             <li><a href="contact.html">Контакти</a></li>
             <li id="auth-status"><a href="login.html" class="login-btn">Вход</a></li>
             <li><a href="#" id="cart-icon">🛒 <span id="cart-count">0</span></a></li>
@@ -32,13 +32,61 @@
 
     <section class="catalog">
         <h2 data-aos="fade-right">КАТАЛОГ <span>2026</span></h2>
-        <div id="products-container" class="grid">
+
+        <div class="catalog-tabs" data-aos="fade-up">
+            <button class="catalog-tab active" onclick="switchTab('all')">Всички продукти</button>
+            <button class="catalog-tab" id="wishlist-tab" onclick="switchTab('wishlist')">❤️ Wishlist</button>
         </div>
+
+        <div class="filter-bar" id="filter-bar" data-aos="fade-up">
+            <span class="filter-label">Категория:</span>
+            <button class="filter-btn active" data-filter="all">Всички</button>
+            <button class="filter-btn" data-filter="gloves">Ръкавици</button>
+            <button class="filter-btn" data-filter="clothing">Облекло</button>
+            <select class="sort-select" id="sort-select">
+                <option value="default">Сортиране</option>
+                <option value="price-asc">Цена: ниска → висока</option>
+                <option value="price-desc">Цена: висока → ниска</option>
+                <option value="name-asc">Наименование A–Z</option>
+            </select>
+        </div>
+
+        <div id="products-container" class="grid"></div>
+        <div id="wishlist-container" class="grid" style="display:none;"></div>
     </section>
+
+    <!-- SIZE GUIDE MODAL -->
+    <div class="modal-overlay" id="size-guide-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeSizeGuide()">&times;</button>
+            <h3>Size <span>Guide</span></h3>
+            <p>Измерете обиколката на ръката си (в см) точно под кокалчетата.</p>
+            <div class="size-calc">
+                <label>Намери твоя размер</label>
+                <div class="size-calc-row">
+                    <input type="number" id="hand-cm" placeholder="напр. 20 см" min="14" max="28" step="0.5">
+                    <button class="size-calc-btn" onclick="calcSize()">Изчисли</button>
+                </div>
+                <div class="size-result" id="size-result"></div>
+            </div>
+            <table class="size-table">
+                <thead>
+                    <tr><th>Размер</th><th>Обиколка (см)</th><th>Описание</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>7</td><td>17 – 18</td><td>Малки ръце / Юноши</td></tr>
+                    <tr><td>8</td><td>18.5 – 19.5</td><td>Средни / Младежи</td></tr>
+                    <tr><td>9</td><td>20 – 21</td><td>Стандарт / Мъже S-M</td></tr>
+                    <tr><td>10</td><td>21.5 – 22.5</td><td>Мъже M-L</td></tr>
+                    <tr><td>11</td><td>23+</td><td>Мъже L-XL / Големи ръце</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
-            <h3>Твоят избор</h3>
+            <h3>Твоят <span>избор</span></h3>
             <span id="close-cart">&times;</span>
         </div>
         <div id="cart-items" class="cart-items-container"></div>
@@ -52,28 +100,24 @@
         <div class="footer-content">
             <div class="footer-section">
                 <div class="logo">GKS<span> STORE</span></div>
-                <p>Goalkeepers Store е специализиран магазин за висококачествена екипировка за вратари. Ние разбираме
-                    нуждите на последния човек в защитата.</p>
+                <p>Goalkeepers Store е специализиран магазин за висококачествена екипировка за вратари.</p>
             </div>
-
             <div class="footer-section">
                 <h4>Бързи връзки</h4>
                 <ul>
                     <li><a href="index.html">Начало</a></li>
                     <li><a href="product.html">Ръкавици</a></li>
-                    <li><a href="about.html">Технологии</a></li>
+                    <li><a href="about.html">За нас</a></li>
                     <li><a href="contact.html">Контакти</a></li>
                 </ul>
             </div>
-
             <div class="footer-section">
                 <h4>Контакти</h4>
-                <p>📧 <a href="mailto:goalkeeperstore6@gmail.com">goalkeeperstore6@gmail.com</a></p>
-                <p>📞 <a href="tel:+359 879 699 432">+359 879 699 432</a></p>
+                <p>📧 <a href="mailto:office@gksgloves.com">office@gksgloves.com</a></p>
+                <p>📞 <a href="tel:+359888123456">+359 888 123 456</a></p>
                 <p>📍 гр. Варна, България</p>
             </div>
         </div>
-
         <div class="footer-bottom">
             <p>&copy; 2026 GKS Store. Всички права запазени.</p>
         </div>
@@ -82,6 +126,129 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module" src="firebase-config.js"></script>
     <script src="script.js"></script>
-</body>
+    <script>
+        // SIZE GUIDE
+        function openSizeGuide() { document.getElementById('size-guide-modal').classList.add('open'); }
+        function closeSizeGuide() { document.getElementById('size-guide-modal').classList.remove('open'); }
+        document.getElementById('size-guide-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSizeGuide();
+        });
+        function calcSize() {
+            const cm = parseFloat(document.getElementById('hand-cm').value);
+            const result = document.getElementById('size-result');
+            result.style.display = 'block';
+            if (!cm || cm < 14 || cm > 28) {
+                result.textContent = 'Моля въведи валидна стойност (14–28 см)';
+                result.style.color = '#ff4444'; return;
+            }
+            let size = cm < 18.25 ? 7 : cm < 19.75 ? 8 : cm < 21.25 ? 9 : cm < 22.75 ? 10 : 11;
+            result.style.color = 'var(--cyan)';
+            result.textContent = `Препоръчан размер: ${size}`;
+        }
 
+        // FILTERS & SORT
+        let activeFilter = 'all', activeSort = 'default', allProducts = [];
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.dataset.filter;
+                renderProducts();
+            });
+        });
+        document.getElementById('sort-select').addEventListener('change', function() {
+            activeSort = this.value; renderProducts();
+        });
+
+        // TAB SWITCH
+        function switchTab(tab) {
+            const allTab = document.querySelectorAll('.catalog-tab');
+            allTab.forEach((t, i) => t.classList.toggle('active', (i===0&&tab==='all')||(i===1&&tab==='wishlist')));
+            document.getElementById('products-container').style.display = tab === 'all' ? '' : 'none';
+            document.getElementById('wishlist-container').style.display = tab === 'wishlist' ? '' : 'none';
+            document.getElementById('filter-bar').style.display = tab === 'all' ? '' : 'none';
+            if (tab === 'wishlist') renderWishlist();
+        }
+
+        function updateWishlistTab() {
+            const wl = JSON.parse(localStorage.getItem('gks_wishlist') || '[]');
+            const tab = document.getElementById('wishlist-tab');
+            if (tab) tab.textContent = `❤️ Wishlist${wl.length > 0 ? ` (${wl.length})` : ''}`;
+        }
+
+        function buildCard(p) {
+            const wl = JSON.parse(localStorage.getItem('gks_wishlist') || '[]');
+            const liked = wl.includes(p.id);
+            const sizes = p.category === 'clothing'
+                ? ['S','M','L','XL','XXL'].map(s=>`<option value="${s}">${s}</option>`).join('')
+                : [7,8,9,10,11].map(s=>`<option value="${s}">${s}</option>`).join('');
+            const wrap = document.createElement('div');
+            wrap.className = 'product-card-wrap';
+            wrap.innerHTML = `
+                <button class="wishlist-btn ${liked?'active':''}" onclick="toggleWishlist('${p.id}',this)">
+                    ${liked?'❤️':'🤍'}
+                </button>
+                <div class="card">
+                    <div class="img-box" style="background-image:url('${p.image}')"></div>
+                    <h3>${p.name}</h3>
+                    <p>${p.price.toFixed(2)} €</p>
+                    ${p.category!=='clothing'?`<button class="size-guide-link" onclick="openSizeGuide()">📏 Size Guide</button>`:''}
+                    <select id="size-${p.id}" class="input-field">
+                        <option value="">Избери размер</option>${sizes}
+                    </select>
+                    <button class="btn-buy" onclick="addToCartWithSize('${p.id}','${p.name}',${p.price})">Добави в количката</button>
+                </div>`;
+            return wrap;
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            let list = [...allProducts];
+            if (activeFilter !== 'all') list = list.filter(p => (p.category||'gloves') === activeFilter);
+            if (activeSort === 'price-asc') list.sort((a,b) => a.price - b.price);
+            else if (activeSort === 'price-desc') list.sort((a,b) => b.price - a.price);
+            else if (activeSort === 'name-asc') list.sort((a,b) => a.name.localeCompare(b.name, 'bg'));
+            container.innerHTML = '';
+            if (list.length === 0) {
+                container.innerHTML = '<div class="no-results">Няма продукти в тази категория</div>';
+                return;
+            }
+            list.forEach(p => container.appendChild(buildCard(p)));
+        }
+
+        function renderWishlist() {
+            const wl = JSON.parse(localStorage.getItem('gks_wishlist') || '[]');
+            const container = document.getElementById('wishlist-container');
+            container.innerHTML = '';
+            const liked = allProducts.filter(p => wl.includes(p.id));
+            if (liked.length === 0) {
+                container.innerHTML = '<div class="wishlist-empty"><span class="big-heart">♡</span>Wishlist-ът ти е празен — добави продукти с ❤️</div>';
+                return;
+            }
+            liked.forEach(p => container.appendChild(buildCard(p)));
+        }
+
+        window.toggleWishlist = function(id, btn) {
+            let wl = JSON.parse(localStorage.getItem('gks_wishlist') || '[]');
+            const idx = wl.indexOf(id);
+            if (idx === -1) { wl.push(id); btn.textContent = '❤️'; btn.classList.add('active'); }
+            else { wl.splice(idx,1); btn.textContent = '🤍'; btn.classList.remove('active'); }
+            localStorage.setItem('gks_wishlist', JSON.stringify(wl));
+            updateWishlistTab();
+        };
+
+        // Override global loadProducts
+        window.loadProducts = async function() {
+            if (!window.fb) return;
+            const container = document.getElementById('products-container');
+            if (!container) return;
+            const snap = await window.fb.getDocs(window.fb.collection(window.db, "products"));
+            allProducts = [];
+            snap.forEach(doc => allProducts.push({ id: doc.id, ...doc.data() }));
+            renderProducts();
+            updateWishlistTab();
+        };
+    </script>
+</body>
 </html>

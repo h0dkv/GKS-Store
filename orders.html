@@ -29,22 +29,22 @@
     </nav>
 
     <main class="catalog">
-        <div class="hero-content" style="text-align: center; margin-bottom: 50px;" data-aos="fade-down">
+        <div class="hero-content" style="text-align:center; margin-bottom:50px;" data-aos="fade-down">
             <h1>МОИТЕ <span>ПОРЪЧКИ</span></h1>
-            <p>Тук можете да следите статуса на вашите поръчки.</p>
+            <p style="color:var(--text-gray); margin-top:12px;">Следи статуса на всяка поръчка в реално време.</p>
         </div>
-
         <div id="orders-container" class="orders-list">
-            <p style="text-align: center; opacity: 0.5;">Зареждане на поръчки...</p>
+            <p
+                style="text-align:center; opacity:0.4; font-family:var(--font-condensed); letter-spacing:2px; text-transform:uppercase;">
+                Зареждане...
+            </p>
         </div>
     </main>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module" src="firebase-config.js"></script>
     <script src="script.js"></script>
-    <script>
-        AOS.init({ duration: 1000, once: true });
-    </script>
+    <script>AOS.init({ duration: 1000, once: true });</script>
     <script type="module">
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -52,31 +52,82 @@
         const auth = getAuth();
         const db = getFirestore();
 
+        const STATUS_STEPS = ['Приета', 'Обработва се', 'Изпратена', 'Доставена'];
+        const STATUS_ICONS = ['✓', '⚙', '🚚', '✅'];
+
+        // Map any status string to step index
+        function getStepIndex(status) {
+            const map = {
+                'pending': 0, 'приета': 0,
+                'processing': 1, 'обработва се': 1,
+                'shipped': 2, 'изпратена': 2,
+                'delivered': 3, 'доставена': 3,
+            };
+            return map[(status || '').toLowerCase()] ?? 0;
+        }
+
+        function buildTracker(status) {
+            const currentIdx = getStepIndex(status);
+            return `<div class="status-tracker">
+                ${STATUS_STEPS.map((step, i) => {
+                const cls = i < currentIdx ? 'done' : i === currentIdx ? 'current' : '';
+                return `<div class="tracker-step ${cls}">
+                        <div class="tracker-dot">${i <= currentIdx ? STATUS_ICONS[i] : ''}</div>
+                        <div class="tracker-label">${step}</div>
+                    </div>`;
+            }).join('')}
+            </div>`;
+        }
+
+        function formatDate(ts) {
+            if (!ts) return '';
+            const d = ts.toDate ? ts.toDate() : new Date(ts);
+            return d.toLocaleDateString('bg-BG', { day: '2-digit', month: 'long', year: 'numeric' });
+        }
+
         onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                window.location.href = "login.html";
-                return;
-            }
+            if (!user) { window.location.href = 'login.html'; return; }
             const container = document.getElementById('orders-container');
             try {
                 const q = query(collection(db, "orders"), where("userId", "==", user.uid));
                 const snapshot = await getDocs(q);
-                container.innerHTML = snapshot.empty ? '<p style="text-align:center;opacity:0.5;">Нямате поръчки.</p>' : '';
-                snapshot.forEach(doc => {
-                    const order = doc.data();
-                    const items = order.items.map(i => `${i.name} (${i.size})`).join(', ');
+                if (snapshot.empty) {
+                    container.innerHTML = `<div style="text-align:center; padding:80px 20px; font-family:var(--font-condensed); letter-spacing:2px; text-transform:uppercase; color:var(--text-gray);">
+                        <div style="font-size:3rem; margin-bottom:20px; opacity:0.3;">📦</div>
+                        Нямате поръчки все още.<br>
+                        <a href="product.html" style="color:var(--cyan); text-decoration:none; margin-top:16px; display:inline-block;">Разгледай каталога →</a>
+                    </div>`;
+                    return;
+                }
+                container.innerHTML = '';
+                const orders = [];
+                snapshot.forEach(doc => orders.push({ id: doc.id, ...doc.data() }));
+                // Sort by date desc
+                orders.sort((a, b) => {
+                    const da = a.date?.toDate ? a.date.toDate() : new Date(a.date || 0);
+                    const db2 = b.date?.toDate ? b.date.toDate() : new Date(b.date || 0);
+                    return db2 - da;
+                });
+                orders.forEach(order => {
+                    const items = (order.items || []).map(i => `${i.name} × Размер ${i.size}`).join(', ');
                     container.innerHTML += `
                         <div class="order-card" data-aos="fade-up">
-                            <div class="order-info">
-                                <h3>Поръчка #${doc.id.substring(0, 6)}</h3>
-                                <p>${items}</p>
+                            <div class="order-top">
+                                <div class="order-info">
+                                    <h3>Поръчка #${order.id.substring(0, 8).toUpperCase()}</h3>
+                                    <div class="order-date">${formatDate(order.date)}</div>
+                                </div>
                             </div>
-                            <div class="order-status">${order.status}</div>
+                            ${buildTracker(order.status)}
+                            <div class="order-items-list">
+                                <strong>Артикули</strong>
+                                ${items || '—'}
+                            </div>
                         </div>`;
                 });
             } catch (e) {
                 console.error(e);
-                container.innerHTML = '<p style="text-align:center;color:red;">Грешка при зареждане.</p>';
+                container.innerHTML = '<p style="text-align:center; color:#ff4444;">Грешка при зареждане.</p>';
             }
         });
     </script>

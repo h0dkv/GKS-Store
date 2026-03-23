@@ -1,44 +1,232 @@
 <!DOCTYPE html>
 <html lang="bg">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вход | GKS STORE</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="images/logo.jpg">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body class="auth-page">
+<div id="loader"><div class="spinner"></div></div>
 
-    <div id="loader">
-        <div class="spinner"></div>
+<!-- LEFT PANEL -->
+<div class="left-panel">
+    <a href="index.html" class="panel-logo">
+        <div class="logo-block">
+            <img src="images/logo.png" alt="GKS Logo">
+        </div>
+        <span class="logo-text">Store</span>
+    </a>
+
+    <div class="panel-body">
+        <div class="panel-eyebrow">Pro Goalkeeper Equipment</div>
+        <h2 class="panel-headline">
+            DEFEND<br>
+            <span class="outline">YOUR</span><br>
+            GOAL.
+        </h2>
+        <p class="panel-sub">Влез в акаунта си и управлявай поръчките си, wishlist-а и профила — на едно място.</p>
     </div>
 
-    <div class="auth-container" data-aos="zoom-in">
-        <div class="auth-box">
-            <div class="logo">
-                <a href="index.html">
-                    <div class="logo-bg">
-                        <img src="images/logo.png" alt="GKS Store Logo" class="navbar-logo">
-                    </div>
-                    <span>STORE</span>
-                </a>
-            </div>
-            <h2>Добре дошли <span>отново</span></h2>
-            <form id="loginForm" class="styled-form">
-                <input type="email" placeholder="Имейл" class="input-field" required>
-                <input type="password" placeholder="Парола" class="input-field" required>
-                <button type="submit" class="cta-btn">ВХОД</button>
-            </form>
-            <p class="auth-footer">Нямате акаунт? <a href="register.html">Регистрирайте се</a></p>
+    <div class="panel-stats">
+        <div class="stat">
+            <span class="stat-num">100+</span>
+            <span class="stat-lbl">Вратари</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">4mm</span>
+            <span class="stat-lbl">Немски латекс</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">100%</span>
+            <span class="stat-lbl">Тестван продукт</span>
         </div>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script type="module" src="firebase-config.js"></script>
-    <script src="script.js"></script>
-</body>
+    <div class="deco-glove">🧤</div>
+</div>
 
+<!-- RIGHT PANEL -->
+<div class="right-panel">
+    <div class="auth-wrap">
+
+        <!-- TABS -->
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="showTab('login')">Вход</button>
+            <button class="auth-tab" onclick="showTab('register')">Регистрация</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div class="form-panel active" id="panel-login">
+            <h2 class="form-title">Добре <span style="color:var(--cyan)">дошли</span></h2>
+            <p class="form-subtitle">Влез в акаунта си, за да продължиш.</p>
+
+            <div class="form-error" id="login-error"></div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Имейл</label>
+                    <input type="email" id="login-email" placeholder="example@mail.com" required autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <label>Парола</label>
+                    <input type="password" id="login-pw" placeholder="••••••••" required autocomplete="current-password">
+                    <button type="button" class="pw-toggle" onclick="togglePw('login-pw', this)">👁</button>
+                </div>
+                <button type="submit" class="btn-submit" id="login-btn">ВХОД</button>
+            </form>
+
+            <div class="divider"><span>или</span></div>
+
+            <div class="form-switch">
+                Нямаш акаунт?
+                <button onclick="showTab('register')">Регистрирай се</button>
+            </div>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div class="form-panel" id="panel-register">
+            <h2 class="form-title">Създай <span style="color:var(--cyan)">акаунт</span></h2>
+            <p class="form-subtitle">Присъедини се към GKS Store.</p>
+
+            <div class="form-error" id="register-error"></div>
+
+            <form id="registerForm">
+                <div class="input-group">
+                    <label>Потребителско ime</label>
+                    <input type="text" id="reg-name" placeholder="Иван Иванов" required autocomplete="name">
+                </div>
+                <div class="input-group">
+                    <label>Имейл</label>
+                    <input type="email" id="reg-email" placeholder="example@mail.com" required autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <label>Парола</label>
+                    <input type="password" id="reg-pw" placeholder="Минимум 6 символа" required autocomplete="new-password">
+                    <button type="button" class="pw-toggle" onclick="togglePw('reg-pw', this)">👁</button>
+                </div>
+                <button type="submit" class="btn-submit" id="register-btn">РЕГИСТРАЦИЯ</button>
+            </form>
+
+            <div class="form-switch">
+                Вече имаш акаунт?
+                <button onclick="showTab('login')">Влез тук</button>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-link">← Обратно към сайта</a>
+    </div>
+</div>
+
+<script type="module" src="firebase-config.js"></script>
+<script>
+    // Loader
+    window.addEventListener('load', () => {
+        setTimeout(() => document.getElementById('loader').classList.add('loader-hidden'), 300);
+    });
+
+    // Tab switching
+    function showTab(tab) {
+        document.querySelectorAll('.auth-tab').forEach((t, i) =>
+            t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register'))
+        );
+        document.getElementById('panel-login').classList.toggle('active', tab === 'login');
+        document.getElementById('panel-register').classList.toggle('active', tab === 'register');
+    }
+
+    // Password toggle
+    function togglePw(inputId, btn) {
+        const input = document.getElementById(inputId);
+        input.type = input.type === 'password' ? 'text' : 'password';
+        btn.textContent = input.type === 'password' ? '👁' : '🙈';
+    }
+
+    function showError(id, msg) {
+        const el = document.getElementById(id);
+        el.textContent = msg;
+        el.classList.add('show');
+    }
+    function clearError(id) {
+        document.getElementById(id).classList.remove('show');
+    }
+
+    function setLoading(btnId, loading) {
+        const btn = document.getElementById(btnId);
+        btn.disabled = loading;
+        btn.textContent = loading ? 'Зареждане...' : btn.dataset.label || btn.textContent;
+    }
+
+    // Wait for Firebase
+    function waitForFb(cb, tries = 0) {
+        if (window.fb) return cb();
+        if (tries > 30) return;
+        setTimeout(() => waitForFb(cb, tries + 1), 100);
+    }
+
+    // LOGIN
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearError('login-error');
+        const email = document.getElementById('login-email').value.trim();
+        const pw = document.getElementById('login-pw').value;
+        setLoading('login-btn', true);
+        waitForFb(async () => {
+            try {
+                await window.fb.signIn(window.auth, email, pw);
+                window.location.href = 'index.html';
+            } catch (err) {
+                const msgs = {
+                    'auth/user-not-found': 'Няма акаунт с този имейл.',
+                    'auth/wrong-password': 'Грешна парола.',
+                    'auth/invalid-credential': 'Грешен имейл или парола.',
+                    'auth/too-many-requests': 'Твърде много опити. Опитай по-късно.',
+                };
+                showError('login-error', msgs[err.code] || 'Грешка при вход. Провери данните.');
+                setLoading('login-btn', false);
+                document.getElementById('login-btn').textContent = 'ВХОД';
+            }
+        });
+    });
+
+    // REGISTER
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearError('register-error');
+        const name = document.getElementById('reg-name').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const pw = document.getElementById('reg-pw').value;
+
+        if (pw.length < 6) {
+            showError('register-error', 'Паролата трябва да е поне 6 символа.'); return;
+        }
+
+        setLoading('register-btn', true);
+        waitForFb(async () => {
+            try {
+                const cred = await window.fb.createUser(window.auth, email, pw);
+                await window.fb.setDoc(window.fb.doc(window.db, "users", cred.user.uid), {
+                    email, name, role: 'user', createdAt: new Date()
+                });
+                window.location.href = 'index.html';
+            } catch (err) {
+                const msgs = {
+                    'auth/email-already-in-use': 'Този имейл вече е регистриран.',
+                    'auth/invalid-email': 'Невалиден имейл адрес.',
+                    'auth/weak-password': 'Паролата е твърде слаба.',
+                };
+                showError('register-error', msgs[err.code] || 'Грешка при регистрация.');
+                setLoading('register-btn', false);
+                document.getElementById('register-btn').textContent = 'РЕГИСТРАЦИЯ';
+            }
+        });
+    });
+
+    // If URL has ?tab=register, switch automatically
+    if (new URLSearchParams(location.search).get('tab') === 'register') showTab('register');
+</script>
+</body>
 </html>
