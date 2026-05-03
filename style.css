@@ -54,6 +54,32 @@ body {
     overflow-x: hidden;
 }
 
+body.menu-open {
+    overflow: hidden;
+}
+
+.toast-notice {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(7, 11, 21, 0.96);
+    border: 1px solid rgba(0, 200, 230, 0.3);
+    color: var(--text-white);
+    padding: 14px 22px;
+    border-radius: 999px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 10010;
+}
+
+.toast-notice.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
 body::before {
     content: '';
     position: fixed;
@@ -167,6 +193,45 @@ span {
     color: var(--text-white) !important;
 }
 
+.nav-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    position: relative;
+    z-index: 1002;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--text-white);
+    transition: var(--transition);
+}
+
+.nav-toggle span+span {
+    margin-top: 6px;
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
 .nav-links {
     display: flex;
     list-style: none;
@@ -259,7 +324,8 @@ span {
     color: var(--cyan) !important;
 }
 
-.user-menu:hover .dropdown-content {
+.user-menu:hover .dropdown-content,
+.user-menu.open .dropdown-content {
     display: block;
 }
 
@@ -968,8 +1034,75 @@ span {
 
 /* --- 18. RESPONSIVE --- */
 @media (max-width: 900px) {
+    .nav-toggle {
+        display: flex;
+    }
+
     .nav-links {
-        display: none;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: min(320px, 100%);
+        height: 100vh;
+        padding: 100px 22px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+        background: rgba(6, 6, 10, 0.98);
+        border-left: 1px solid var(--border);
+        box-shadow: -18px 0 40px rgba(0, 0, 0, 0.4);
+        transition: right 0.35s ease;
+        z-index: 1001;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-links a,
+    .nav-links .login-btn {
+        width: 100%;
+        padding: 14px 18px;
+        border-radius: 6px;
+        display: inline-flex;
+        justify-content: flex-start;
+    }
+
+    .nav-links a {
+        font-size: 0.92rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active,
+    .nav-links .login-btn:hover {
+        color: var(--cyan);
+        background: rgba(0, 200, 230, 0.08);
+    }
+
+    .user-menu {
+        width: 100%;
+    }
+
+    .user-menu .login-btn {
+        width: 100%;
+    }
+
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        background: rgba(6, 6, 10, 0.96);
+        border: none;
+        box-shadow: none;
+        margin-top: 0;
+    }
+
+    .dropdown-content a {
+        padding: 14px 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .hero h1 {
@@ -994,6 +1127,50 @@ span {
         flex-direction: column;
         gap: 8px;
         text-align: center;
+    }
+
+    .catalog {
+        padding: 100px 4% 60px;
+    }
+
+    .catalog-tabs {
+        margin-bottom: 24px;
+    }
+
+    .catalog-tab {
+        flex: 1 0 auto;
+        min-width: 130px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .catalog-tab.active {
+        background: rgba(0, 200, 230, 0.12);
+    }
+
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding-bottom: 18px;
+    }
+
+    .filter-btn {
+        width: 100%;
+    }
+
+    .sort-select {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    #products-container {
+        gap: 16px;
+    }
+
+    .card {
+        padding: 26px 22px;
     }
 }
 
@@ -1311,6 +1488,9 @@ span {
     display: flex;
     margin-bottom: 40px;
     border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    gap: 12px;
+    -webkit-overflow-scrolling: touch;
 }
 
 .catalog-tab {

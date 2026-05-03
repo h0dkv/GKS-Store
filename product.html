@@ -20,6 +20,11 @@
                 <span>STORE</span>
             </a>
         </div>
+        <button id="nav-toggle" class="nav-toggle" aria-label="Смени меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <ul class="nav-links">
             <li><a href="index.html">Начало</a></li>
             <li><a href="about.html">За нас</a></li>
@@ -71,14 +76,38 @@
             </div>
             <table class="size-table">
                 <thead>
-                    <tr><th>Размер</th><th>Обиколка (см)</th><th>Описание</th></tr>
+                    <tr>
+                        <th>Размер</th>
+                        <th>Обиколка (см)</th>
+                        <th>Описание</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr><td>7</td><td>17 – 18</td><td>Малки ръце / Юноши</td></tr>
-                    <tr><td>8</td><td>18.5 – 19.5</td><td>Средни / Младежи</td></tr>
-                    <tr><td>9</td><td>20 – 21</td><td>Стандарт / Мъже S-M</td></tr>
-                    <tr><td>10</td><td>21.5 – 22.5</td><td>Мъже M-L</td></tr>
-                    <tr><td>11</td><td>23+</td><td>Мъже L-XL / Големи ръце</td></tr>
+                    <tr>
+                        <td>7</td>
+                        <td>17 – 18</td>
+                        <td>Малки ръце / Юноши</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>18.5 – 19.5</td>
+                        <td>Средни / Младежи</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>20 – 21</td>
+                        <td>Стандарт / Мъже S-M</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>21.5 – 22.5</td>
+                        <td>Мъже M-L</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>23+</td>
+                        <td>Мъже L-XL / Големи ръце</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -130,7 +159,7 @@
         // SIZE GUIDE
         function openSizeGuide() { document.getElementById('size-guide-modal').classList.add('open'); }
         function closeSizeGuide() { document.getElementById('size-guide-modal').classList.remove('open'); }
-        document.getElementById('size-guide-modal').addEventListener('click', function(e) {
+        document.getElementById('size-guide-modal').addEventListener('click', function (e) {
             if (e.target === this) closeSizeGuide();
         });
         function calcSize() {
@@ -157,14 +186,14 @@
                 renderProducts();
             });
         });
-        document.getElementById('sort-select').addEventListener('change', function() {
+        document.getElementById('sort-select').addEventListener('change', function () {
             activeSort = this.value; renderProducts();
         });
 
         // TAB SWITCH
         function switchTab(tab) {
             const allTab = document.querySelectorAll('.catalog-tab');
-            allTab.forEach((t, i) => t.classList.toggle('active', (i===0&&tab==='all')||(i===1&&tab==='wishlist')));
+            allTab.forEach((t, i) => t.classList.toggle('active', (i === 0 && tab === 'all') || (i === 1 && tab === 'wishlist')));
             document.getElementById('products-container').style.display = tab === 'all' ? '' : 'none';
             document.getElementById('wishlist-container').style.display = tab === 'wishlist' ? '' : 'none';
             document.getElementById('filter-bar').style.display = tab === 'all' ? '' : 'none';
@@ -181,19 +210,19 @@
             const wl = JSON.parse(localStorage.getItem('gks_wishlist') || '[]');
             const liked = wl.includes(p.id);
             const sizes = p.category === 'clothing'
-                ? ['S','M','L','XL','XXL'].map(s=>`<option value="${s}">${s}</option>`).join('')
-                : [7,8,9,10,11].map(s=>`<option value="${s}">${s}</option>`).join('');
+                ? ['S', 'M', 'L', 'XL', 'XXL'].map(s => `<option value="${s}">${s}</option>`).join('')
+                : [7, 8, 9, 10, 11].map(s => `<option value="${s}">${s}</option>`).join('');
             const wrap = document.createElement('div');
             wrap.className = 'product-card-wrap';
             wrap.innerHTML = `
-                <button class="wishlist-btn ${liked?'active':''}" onclick="toggleWishlist('${p.id}',this)">
-                    ${liked?'❤️':'🤍'}
+                <button class="wishlist-btn ${liked ? 'active' : ''}" onclick="toggleWishlist('${p.id}',this)">
+                    ${liked ? '❤️' : '🤍'}
                 </button>
                 <div class="card">
                     <div class="img-box" style="background-image:url('${p.image}')"></div>
                     <h3>${p.name}</h3>
                     <p>${p.price.toFixed(2)} €</p>
-                    ${p.category!=='clothing'?`<button class="size-guide-link" onclick="openSizeGuide()">📏 Size Guide</button>`:''}
+                    ${p.category !== 'clothing' ? `<button class="size-guide-link" onclick="openSizeGuide()">📏 Size Guide</button>` : ''}
                     <select id="size-${p.id}" class="input-field">
                         <option value="">Избери размер</option>${sizes}
                     </select>
@@ -205,10 +234,10 @@
         function renderProducts() {
             const container = document.getElementById('products-container');
             let list = [...allProducts];
-            if (activeFilter !== 'all') list = list.filter(p => (p.category||'gloves') === activeFilter);
-            if (activeSort === 'price-asc') list.sort((a,b) => a.price - b.price);
-            else if (activeSort === 'price-desc') list.sort((a,b) => b.price - a.price);
-            else if (activeSort === 'name-asc') list.sort((a,b) => a.name.localeCompare(b.name, 'bg'));
+            if (activeFilter !== 'all') list = list.filter(p => (p.category || 'gloves') === activeFilter);
+            if (activeSort === 'price-asc') list.sort((a, b) => a.price - b.price);
+            else if (activeSort === 'price-desc') list.sort((a, b) => b.price - a.price);
+            else if (activeSort === 'name-asc') list.sort((a, b) => a.name.localeCompare(b.name, 'bg'));
             container.innerHTML = '';
             if (list.length === 0) {
                 container.innerHTML = '<div class="no-results">Няма продукти в тази категория</div>';
@@ -229,17 +258,17 @@
             liked.forEach(p => container.appendChild(buildCard(p)));
         }
 
-        window.toggleWishlist = function(id, btn) {
+        window.toggleWishlist = function (id, btn) {
             let wl = JSON.parse(localStorage.getItem('gks_wishlist') || '[]');
             const idx = wl.indexOf(id);
             if (idx === -1) { wl.push(id); btn.textContent = '❤️'; btn.classList.add('active'); }
-            else { wl.splice(idx,1); btn.textContent = '🤍'; btn.classList.remove('active'); }
+            else { wl.splice(idx, 1); btn.textContent = '🤍'; btn.classList.remove('active'); }
             localStorage.setItem('gks_wishlist', JSON.stringify(wl));
             updateWishlistTab();
         };
 
         // Override global loadProducts
-        window.loadProducts = async function() {
+        window.loadProducts = async function () {
             if (!window.fb) return;
             const container = document.getElementById('products-container');
             if (!container) return;
@@ -251,4 +280,5 @@
         };
     </script>
 </body>
+
 </html>

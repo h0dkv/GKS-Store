@@ -20,6 +20,11 @@
                 <span>STORE</span>
             </a>
         </div>
+        <button id="nav-toggle" class="nav-toggle" aria-label="Смени меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <ul class="nav-links">
             <li><a href="index.html">Начало</a></li>
             <li><a href="product.html">Продукти</a></li>
@@ -40,6 +45,18 @@
             </p>
         </div>
     </main>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Твоят избор</h3>
+            <span id="close-cart">&times;</span>
+        </div>
+        <div id="cart-items" class="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="total-price">Общо: <span id="cart-total">0.00</span> €</div>
+            <button id="checkout-btn" class="cta-btn">ПОРЪЧАЙ СЕГА</button>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module" src="firebase-config.js"></script>

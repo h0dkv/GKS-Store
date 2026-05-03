@@ -2,6 +2,55 @@
 let cart = [];
 const ADMIN_EMAIL = "hristianfortnite@gmail.com"; // Промени го с твоя
 
+function loadCart() {
+    try {
+        const savedCart = localStorage.getItem('gksCart');
+        cart = savedCart ? JSON.parse(savedCart) : [];
+    } catch {
+        cart = [];
+    }
+    updateCartUI();
+}
+
+function saveCart() {
+    localStorage.setItem('gksCart', JSON.stringify(cart));
+}
+
+function showToast(message, duration = 2400) {
+    let toast = document.getElementById('gks-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'gks-toast';
+        toast.className = 'toast-notice';
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => toast.classList.remove('show'), duration);
+}
+
+function setupProfileMenu() {
+    const menu = document.querySelector('.user-menu');
+    if (!menu) return;
+    const trigger = menu.querySelector('.login-btn');
+    const dropdown = menu.querySelector('.dropdown-content');
+    if (!trigger || !dropdown) return;
+
+    trigger.onclick = (e) => {
+        e.preventDefault();
+        menu.classList.toggle('open');
+    };
+
+    document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target)) {
+            menu.classList.remove('open');
+        }
+    });
+}
+
 // --- 2. ИНИЦИАЛИЗАЦИЯ ПРИ ЗАРЕЖДАНЕ ---
 window.addEventListener("load", () => {
     // Скриване на Loader-а
@@ -11,6 +60,7 @@ window.addEventListener("load", () => {
     // Пускане на анимациите
     AOS.init({ duration: 1000, once: true });
 
+    loadCart();
     // Стартиране на основните функции
     checkLoginStatus();
     loadProducts();
@@ -40,6 +90,7 @@ async function checkLoginStatus() {
                         </div>`;
 
             document.getElementById('logoutBtn').onclick = () => window.fb.logOut(window.auth);
+            setupProfileMenu();
         } else {
             authStatus.innerHTML = `<a href="login.html" class="login-btn">Вход</a>`;
         }
@@ -57,7 +108,7 @@ if (logForm) {
             await window.fb.signIn(window.auth, email, password);
             window.location.href = "index.html";
         } catch (err) {
-            alert("Грешен имейл или парола!");
+            showToast("Грешен имейл или парола!");
         }
     });
 }
@@ -69,7 +120,7 @@ if (regForm) {
 
         // ПРОВЕРКА: Изчакай или провери дали window.fb съществува
         if (!window.fb) {
-            alert("Системата зарежда... Моля, опитайте след секунда.");
+            showToast("Системата зарежда... Моля, опитайте след секунда.");
             return;
         }
 
@@ -87,7 +138,7 @@ if (regForm) {
 
             window.location.href = 'index.html';
         } catch (err) {
-            alert("Грешка: " + err.message);
+            showToast("Грешка: " + (err.message || "Моля опитайте отново."));
         }
     });
 }
@@ -138,12 +189,13 @@ async function loadProducts() {
 window.addToCartWithSize = function (id, name, price) {
     const size = document.getElementById(`size-${id}`).value;
     if (!size) {
-        alert("Моля, избери размер!");
+        showToast("Моля, избери размер!");
         return;
     }
     cart.push({ id, name, price, size });
     updateCartUI();
-    alert(`Добавено: ${name} (Размер ${size})`);
+    saveCart();
+    showToast(`Добавено: ${name} (Размер ${size})`);
 };
 
 function updateCartUI() {
@@ -173,6 +225,8 @@ function updateCartUI() {
 window.removeFromCart = function (index) {
     cart.splice(index, 1);
     updateCartUI();
+    saveCart();
+    showToast("Продуктът е изтрит от количката.");
 };
 
 // Странично меню за количка
@@ -180,8 +234,33 @@ const cIcon = document.getElementById('cart-icon');
 const cSide = document.getElementById('cart-sidebar');
 const cClose = document.getElementById('close-cart');
 
-if (cIcon) cIcon.onclick = () => cSide.classList.add('active');
-if (cClose) cClose.onclick = () => cSide.classList.remove('active');
+if (cIcon && cSide) cIcon.onclick = (e) => {
+    e.preventDefault();
+    cSide.classList.add('active');
+};
+if (cClose && cSide) cClose.onclick = () => cSide.classList.remove('active');
+
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (navToggle && navLinks) {
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.onclick = () => {
+        const isOpen = navLinks.classList.toggle('active');
+        navToggle.classList.toggle('active');
+        document.body.classList.toggle('menu-open');
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+}
 
 // --- 7. ПЛАЩАНЕ ---
 const checkoutBtn = document.getElementById('checkout-btn');
@@ -189,11 +268,14 @@ if (checkoutBtn) {
     checkoutBtn.onclick = async () => {
         const user = window.auth.currentUser;
         if (!user) {
-            alert("Влезте в акаунта си първо.");
+            showToast("Влезте в акаунта си първо.");
             window.location.href = "login.html";
             return;
         }
-        if (cart.length === 0) return alert("Количката е празна.");
+        if (cart.length === 0) {
+            showToast("Количката е празна.");
+            return;
+        }
 
         try {
             await window.fb.addDoc(window.fb.collection(window.db, "orders"), {
@@ -203,16 +285,16 @@ if (checkoutBtn) {
                 status: "Pending",
                 date: new Date()
             });
-            alert("Поръчката е приета!");
+            showToast("Поръчката е приета!");
             cart = [];
-            document.getElementById('cart-count').innerText = "0";
-            cSide.classList.remove('active');
+            saveCart();
+            updateCartUI();
+            if (cSide) cSide.classList.remove('active');
         } catch (err) {
-            alert("Грешка при изпращане.");
+            showToast("Грешка при изпращане.");
         }
     };
 }
-
 
 const addProductForm = document.getElementById('addProductForm');
 
@@ -220,22 +302,19 @@ if (addProductForm) {
     addProductForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // 1. Взимаме стойностите
         const name = document.getElementById('prodName').value;
         const price = parseFloat(document.getElementById('prodPrice').value);
         const image = document.getElementById('prodImage').value;
         const category = document.getElementById('prodCategory').value;
 
-        // Валидация
         if (!name || isNaN(price) || !image || !category) {
-            alert("Моля, попълнете всички полета правилно!");
+            showToast("Моля, попълнете всички полета правилно!");
             return;
         }
 
         try {
             console.log("Опит за качване на продукт...");
 
-            // 2. Използваме window.fb.addDoc
             const docRef = await window.fb.addDoc(window.fb.collection(window.db, "products"), {
                 name: name,
                 price: price,
@@ -245,12 +324,12 @@ if (addProductForm) {
             });
 
             console.log("Продуктът е качен с ID: ", docRef.id);
-            alert("✅ Продуктът е добавен успешно в Goalkeepers Store!");
+            showToast("✅ Продуктът е добавен успешно!");
             addProductForm.reset();
 
         } catch (error) {
             console.error("Грешка при добавяне:", error);
-            alert("Грешка при качване: " + error.message);
+            showToast("Грешка при качване: " + (error.message || "Моля опитайте отново."));
         }
     });
 }
