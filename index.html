@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="images/logo.jpg">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <meta name="theme-color" content="#00c8e6">
+    <meta name="description" content="Professional goalkeeper gloves and equipment">
+
+    <meta property="og:title" content="GKS STORE">
+    <meta property="og:description" content="Elite Goalkeeper Equipment">
+    <meta property="og:image" content="images/banner.jpg">  
 </head>
 
 <body>
@@ -36,39 +42,65 @@
             <li><a href="about.html">За нас</a></li>
             <li id="auth-status"><a href="login.html" class="login-btn">Вход</a></li>
             <li><a href="#" id="cart-icon">🛒 <span id="cart-count">0</span></a></li>
+            <li>
+                <div class="lang-switcher">
+                    <button onclick="setLanguage('bg')">BG</button>
+                    <button onclick="setLanguage('en')">EN</button>
+                </div>
+            </li>
         </ul>
     </nav>
 
     <header class="hero">
+
+        <div class="hero-overlay"></div>
+
         <div class="hero-content" data-aos="fade-up">
-            <h1>MAXIMUM <span>GRIP</span></h1>
-            <p>Професионални футболни ръкавици с немски латекс и хибриден шев. Проектирани за шампиони.</p>
+
+            <span class="hero-tag">
+                Произведено за вратари, от вратари
+            </span>
+
+            <h1>
+                DEFEND
+                <span>YOUR GOAL</span>
+            </h1>
+
+            <p>
+                В GKS Store вярваме, че всеки вратар заслужава най-доброто. Нашата мисия е да предоставим
+                висококачествени ръкавици, които не само защитават, но и вдъхновяват увереност на терена.
+            </p>
+
             <div class="hero-btns">
-                <a href="product.html" class="cta-btn">Разгледай моделите</a>
+                <a href="product.html" class="cta-btn">
+                    SHOP NOW
+                </a>
+
+                <a href="about.html" class="cta-btn">
+                    EXPLORE
+                </a>
+            </div>
+
+            <div class="hero-stats">
+
+                <div class="hero-stat">
+                    <strong>4mm</strong>
+                    <span>German Latex</span>
+                </div>
+
+                <div class="hero-stat">
+                    <strong>10+</strong>
+                    <span>Вратари</span>
+                </div>
+
+                <div class="hero-stat">
+                    <strong>2026</strong>
+                    <span>Collection</span>
+                </div>
+
             </div>
         </div>
     </header>
-
-    <section class="tech-info" style="padding: 80px 8%; text-align: center;">
-        <h2 data-aos="fade-down">ЗАЩО <span>GKS?</span></h2>
-        <div class="grid">
-            <div class="card" data-aos="zoom-in">
-                <div class="icon">🧤</div>
-                <h3>4mm Contact Latex</h3>
-                <p>Невероятно сцепление при мокри и сухи условия.</p>
-            </div>
-            <div class="card" data-aos="zoom-in" data-aos-delay="200">
-                <div class="icon">🛡️</div>
-                <h3>Removable Fingersave</h3>
-                <p>Максимална защита за пръстите ти.</p>
-            </div>
-            <div class="card" data-aos="zoom-in" data-aos-delay="400">
-                <div class="icon">💨</div>
-                <h3>Breathable Mesh</h3>
-                <p>Ръцете ти остават сухи през целия мач.</p>
-            </div>
-        </div>
-    </section>
 
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">

@@ -333,3 +333,106 @@ if (addProductForm) {
         }
     });
 }
+
+
+window.addEventListener('load', () => {
+
+    updateCartUI();
+    applyTranslations();
+
+    const toggle = document.getElementById('nav-toggle');
+    const nav = document.querySelector('.nav-links');
+
+    if (toggle && nav) {
+        toggle.onclick = () => {
+            nav.classList.toggle('active');
+        }
+    }
+});
+
+/* ADD IN script.js */
+
+const translations = {
+
+    bg: {
+        home: 'Начало',
+        products: 'Продукти',
+        about: 'За нас',
+        contact: 'Контакти',
+        login: 'Вход'
+    },
+
+    en: {
+        home: 'Home',
+        products: 'Products',
+        about: 'About',
+        contact: 'Contact',
+        login: 'Login'
+    }
+};
+
+let currentLang =
+    localStorage.getItem('lang') || 'bg';
+
+function setLanguage(lang) {
+
+    currentLang = lang;
+
+    localStorage.setItem('lang', lang);
+
+    applyTranslations();
+}
+
+function applyTranslations() {
+
+    document
+        .querySelectorAll('[data-translate]')
+
+        .forEach(el => {
+
+            const key = el.dataset.translate;
+
+            el.textContent =
+                translations[currentLang][key];
+        });
+}
+
+window.addEventListener('load', () => {
+
+    applyTranslations();
+
+});
+
+/* ADD SEARCH SYSTEM */
+
+document
+    .getElementById('search-products')
+
+    .addEventListener('input', function () {
+
+        const term =
+            this.value.toLowerCase();
+
+        const filtered =
+            allProducts.filter(p =>
+
+                p.name.toLowerCase()
+                    .includes(term)
+
+            );
+
+        const container =
+            document.getElementById(
+                'products-container'
+            );
+
+        container.innerHTML = '';
+
+        filtered.forEach(p =>
+
+            container.appendChild(
+                buildCard(p)
+            )
+
+        );
+    }); 

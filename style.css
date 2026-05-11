@@ -2217,3 +2217,80 @@ span {
         min-height: 100vh;
     }
 }
+
+/* ADD IN style.css */
+
+.lang-switcher {
+    display: flex;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.lang-switcher button {
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.lang-switcher button:hover {
+    background: var(--cyan);
+    color: #000;
+}
+
+.search-bar {
+    width: 100%;
+    margin: 30px 0;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #111;
+    color: #fff;
+}
+
+.badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--cyan);
+    color: #000;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    z-index: 2;
+}
+
+.stock {
+    margin-top: 10px;
+    color: #00ff99;
+    font-size: 0.8rem;
+}
+
+.card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+    transition: 0.35s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: var(--cyan);
+    box-shadow: 0 20px 50px rgba(0, 200, 230, 0.18);
+}
+
+.img-box {
+    border-radius: 18px;
+    overflow: hidden;
+}

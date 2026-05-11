@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="images/logo.jpg">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <meta name="theme-color" content="#00c8e6">
+
+    <meta name="description" content="Професионални ръкавици и екипировка за вратари">
+
+    <meta property="og:title" content="GKS STORE">
+
+    <meta property="og:description" content="Елитна екипировка за вратари">
+
+    <meta property="og:image" content="images/banner.jpg">
 </head>
 
 <body class="bg-darker">
@@ -26,12 +35,48 @@
             <span></span>
         </button>
         <ul class="nav-links">
-            <li><a href="index.html">Начало</a></li>
-            <li><a href="about.html">За нас</a></li>
-            <li><a href="product.html" class="active">Продукти</a></li>
-            <li><a href="contact.html">Контакти</a></li>
-            <li id="auth-status"><a href="login.html" class="login-btn">Вход</a></li>
-            <li><a href="#" id="cart-icon">🛒 <span id="cart-count">0</span></a></li>
+            <li>
+                <a href="index.html" data-translate="home">
+                    Начало
+                </a>
+            </li>
+            <li>
+                <a href="about.html" data-translate="about">
+                    За нас
+                </a>
+            </li>
+            <li>
+                <a href="product.html" class="active" data-translate="products">
+                    Продукти
+                </a>
+            </li>
+            <li>
+                <a href="contact.html" data-translate="contact">
+                    Контакти
+                </a>
+            </li>
+            <li id="auth-status">
+                <a href="login.html" class="login-btn" data-translate="login">
+                    Вход
+                </a>
+            </li>
+            <li>
+                <a href="#" id="cart-icon">
+                    🛒 <span id="cart-count">0</span>
+                </a>
+            </li>
+            <!-- LANGUAGE SWITCHER -->
+            <li>
+                <div class="lang-switcher">
+
+                    <button onclick="setLanguage('bg')">
+                        BG
+                    </button>
+                    <button onclick="setLanguage('en')">
+                        EN
+                    </button>
+                </div>
+            </li>
         </ul>
     </nav>
 
@@ -55,7 +100,11 @@
                 <option value="name-asc">Наименование A–Z</option>
             </select>
         </div>
+        <div class="search-bar">
 
+            <input type="text" id="search-products" placeholder="Search goalkeeper gear...">
+
+        </div>
         <div id="products-container" class="grid"></div>
         <div id="wishlist-container" class="grid" style="display:none;"></div>
     </section>
